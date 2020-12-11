@@ -33,4 +33,18 @@ function Plot:initialize(length, minimum, maximum)
   self._maximum = maximum
 end
 
+---
+-- @tparam number point
+function Plot:push(point)
+  assert(type(point) == "number")
+
+  if point < self._minimum then
+    point = self._minimum
+  end
+  if point > self._maximum then
+    point = self._maximum
+  end
+  table.insert(self._points, point)
+end
+
 return Plot
