@@ -73,3 +73,38 @@ function TestPlot.test_push_empty()
   luaunit.assert_is_table(plot._points)
   luaunit.assert_equals(plot._points, {0.2})
 end
+
+function TestPlot.test_push_with_factor_in_range_positive()
+  local plot = Plot:new(5)
+  plot:push(0.5)
+  plot:push_with_factor(0.2)
+
+  luaunit.assert_is_table(plot._points)
+  luaunit.assert_equals(plot._points, {0, 0, 0, 0, 0, 0.5, 0.7})
+end
+
+function TestPlot.test_push_with_factor_in_range_negative()
+  local plot = Plot:new(5)
+  plot:push(0.5)
+  plot:push_with_factor(-0.2)
+
+  luaunit.assert_is_table(plot._points)
+  luaunit.assert_equals(plot._points, {0, 0, 0, 0, 0, 0.5, 0.3})
+end
+
+function TestPlot.test_push_with_factor_out_range()
+  local plot = Plot:new(5)
+  plot:push(0.5)
+  plot:push_with_factor(0.6)
+
+  luaunit.assert_is_table(plot._points)
+  luaunit.assert_equals(plot._points, {0, 0, 0, 0, 0, 0.5, 1})
+end
+
+function TestPlot.test_push_with_factor_empty()
+  local plot = Plot:new(0)
+  plot:push_with_factor(0.5)
+
+  luaunit.assert_is_table(plot._points)
+  luaunit.assert_equals(plot._points, {0.5})
+end
