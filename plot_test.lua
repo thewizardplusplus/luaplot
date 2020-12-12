@@ -41,3 +41,35 @@ function TestPlot.test_new_partial()
   luaunit.assert_is_number(plot._maximum)
   luaunit.assert_equals(plot._maximum, 1)
 end
+
+function TestPlot.test_push_in_range()
+  local plot = Plot:new(5)
+  plot:push(0.2)
+
+  luaunit.assert_is_table(plot._points)
+  luaunit.assert_equals(plot._points, {0, 0, 0, 0, 0, 0.2})
+end
+
+function TestPlot.test_push_too_less()
+  local plot = Plot:new(5)
+  plot:push(-0.2)
+
+  luaunit.assert_is_table(plot._points)
+  luaunit.assert_equals(plot._points, {0, 0, 0, 0, 0, 0})
+end
+
+function TestPlot.test_push_too_greater()
+  local plot = Plot:new(5)
+  plot:push(1.2)
+
+  luaunit.assert_is_table(plot._points)
+  luaunit.assert_equals(plot._points, {0, 0, 0, 0, 0, 1})
+end
+
+function TestPlot.test_push_empty()
+  local plot = Plot:new(0)
+  plot:push(0.2)
+
+  luaunit.assert_is_table(plot._points)
+  luaunit.assert_equals(plot._points, {0.2})
+end
