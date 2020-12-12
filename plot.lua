@@ -47,4 +47,21 @@ function Plot:push(point)
   table.insert(self._points, point)
 end
 
+---
+-- @tparam number factor
+function Plot:push_with_factor(factor)
+  assert(type(factor) == "number")
+
+  local last_point
+  if #self._points ~= 0 then
+    last_point = self._points[#self._points]
+  else
+    last_point = self._minimum
+  end
+
+  local delta_x = 1 -- because it's the next point
+  local next_point = factor * delta_x + last_point
+  self:push(next_point)
+end
+
 return Plot
