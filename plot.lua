@@ -64,4 +64,13 @@ function Plot:push_with_factor(factor)
   self:push(next_point)
 end
 
+---
+-- @tparam number factor_limit
+function Plot:push_with_random_factor(factor_limit)
+  assert(type(factor_limit) == "number")
+
+  local factor = 2 * factor_limit * math.random() - factor_limit
+  self:push_with_factor(factor)
+end
+
 return Plot
