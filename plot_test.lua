@@ -108,3 +108,15 @@ function TestPlot.test_push_with_factor_empty()
   luaunit.assert_is_table(plot._points)
   luaunit.assert_equals(plot._points, {0.5})
 end
+
+function TestPlot.test_push_with_random_factor()
+  math.randomseed(1)
+
+  local plot = Plot:new(5)
+  plot:push(0.5)
+  plot:push_with_random_factor(0.2)
+
+  luaunit.assert_is_table(plot._points)
+  luaunit.assert_equals(#plot._points, 7)
+  luaunit.assert_almost_equals(plot._points[7], 0.457753, 1e-6)
+end
