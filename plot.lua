@@ -34,6 +34,28 @@ function Plot:initialize(length, minimum, maximum)
 end
 
 ---
+-- @treturn func func(points: {number,...}, index: number):
+--   nil|(number, number); iterator function
+-- @treturn {number,...} points
+-- @treturn number always zero
+function Plot:__ipairs()
+  local function iterator(points, index)
+    assert(type(points) == "table")
+    assert(type(index) == "number" and index >= 0)
+
+    local next_index = index + 1
+    local next_item = points[next_index]
+    if next_item == nil then
+      return
+    end
+
+    return next_index, next_item
+  end
+
+  return iterator, self._points, 0
+end
+
+---
 -- @tparam number point
 function Plot:push(point)
   assert(type(point) == "number")
