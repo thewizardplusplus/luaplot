@@ -120,3 +120,29 @@ function TestPlot.test_push_with_random_factor()
   luaunit.assert_equals(#plot._points, 7)
   luaunit.assert_almost_equals(plot._points[7], 0.457753, 1e-6)
 end
+
+function TestPlot.test_shift()
+  local plot = Plot:new(0)
+  for i = 1, 5 do
+    plot:push(i / 10)
+  end
+
+  local first_point = plot:shift()
+
+  luaunit.assert_is_table(plot._points)
+  luaunit.assert_equals(plot._points, {0.2, 0.3, 0.4, 0.5})
+
+  luaunit.assert_is_number(first_point)
+  luaunit.assert_equals(first_point, 0.1)
+end
+
+function TestPlot.test_shift_empty()
+  local plot = Plot:new(0)
+  local first_point = plot:shift()
+
+  luaunit.assert_is_table(plot._points)
+  luaunit.assert_equals(plot._points, {})
+
+  luaunit.assert_is_number(first_point)
+  luaunit.assert_equals(first_point, 0)
+end
