@@ -73,4 +73,11 @@ function Plot:push_with_random_factor(factor_limit)
   self:push_with_factor(factor)
 end
 
+---
+-- @treturn number
+function Plot:shift()
+  local first_point = table.remove(self._points, 1)
+  return first_point or self._minimum
+end
+
 return Plot
