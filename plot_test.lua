@@ -42,6 +42,37 @@ function TestPlot.test_new_partial()
   luaunit.assert_equals(plot._maximum, 1)
 end
 
+function TestPlot.test_ipairs()
+  local plot = Plot:new(0)
+  for i = 1, 5 do
+    plot:push(i / 10)
+  end
+
+  local points = {}
+  for index, point in ipairs(plot) do
+    table.insert(points, {index = index, point = point})
+  end
+
+  luaunit.assert_equals(points, {
+    {index = 1, point = 0.1},
+    {index = 2, point = 0.2},
+    {index = 3, point = 0.3},
+    {index = 4, point = 0.4},
+    {index = 5, point = 0.5},
+  })
+end
+
+function TestPlot.test_ipairs_empty()
+  local plot = Plot:new(0)
+
+  local points = {}
+  for index, point in ipairs(plot) do
+    table.insert(points, {index = index, point = point})
+  end
+
+  luaunit.assert_equals(points, {})
+end
+
 function TestPlot.test_push_in_range()
   local plot = Plot:new(5)
   plot:push(0.2)
