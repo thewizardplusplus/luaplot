@@ -34,6 +34,17 @@ function Plot:initialize(length, minimum, maximum)
 end
 
 ---
+-- It is used for iterating over plot points in Lua 5.3+.
+-- @tparam number index
+-- @treturn number
+function Plot:__index(index)
+  assert(type(index) == "number")
+
+  return self._points[index]
+end
+
+---
+-- It is used for iterating over plot points in Lua 5.2.
 -- @treturn func func(points: {number,...}, index: number):
 --   nil|(number, number); iterator function
 -- @treturn {number,...} points
