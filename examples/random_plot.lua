@@ -1,14 +1,22 @@
 local types = require("luaplot.types")
 local Plot = require("luaplot.plot")
 
-local function print_plot(plot)
+local function print_plot(plot, vertical_step)
   assert(types.is_instance(plot, Plot))
+  assert(types.is_number_with_limits(vertical_step, 0, 1))
 
-  for _, point in ipairs(plot) do
-    point = math.floor(5 * point)
-    io.write(string.format("%d ", point))
+  local text = ""
+  for height = 1, 0, -vertical_step do
+    for _, point in ipairs(plot) do
+      local delta = math.abs(point - height)
+      local symbol = delta < vertical_step / 2 and "*" or "."
+      text = text .. symbol
+    end
+
+    text = text .. "\n"
   end
-  io.write("\n")
+
+  print(text)
 end
 
 local function sleep(seconds)
@@ -29,6 +37,6 @@ while true do
   plot:shift()
   plot:push_with_random_factor(0.2)
 
-  print_plot(plot)
+  print_plot(plot, 0.2)
   sleep(0.2)
 end
