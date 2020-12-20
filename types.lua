@@ -5,14 +5,19 @@ local types = {}
 
 ---
 -- @tparam any value
--- @tparam[opt=math.huge] number limit [0, ∞)
+-- @tparam[opt=-math.huge] number minimum
+-- @tparam[optchain=math.huge] number maximum [minimum, ∞)
 -- @treturn bool
-function types.is_positive_number(value, limit)
-  limit = limit or math.huge
+function types.is_number_with_limits(value, minimum, maximum)
+  minimum = minimum or -math.huge
+  maximum = maximum or math.huge
 
-  assert(type(limit) == "number" and limit >= 0)
+  assert(type(minimum) == "number")
+  assert(type(maximum) == "number" and maximum >= minimum)
 
-  return type(value) == "number" and value >= 0 and value <= limit
+  return type(value) == "number"
+    and value >= minimum
+    and value <= maximum
 end
 
 ---
