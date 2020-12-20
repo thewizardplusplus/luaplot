@@ -39,7 +39,7 @@ end
 -- @tparam number index
 -- @treturn number
 function Plot:__index(index)
-  assert(types.is_number_with_limits(index))
+  assert(types.is_number_with_limits(index, 1))
 
   return self._points[index]
 end
