@@ -2,6 +2,7 @@
 -- @classmod Plot
 
 local middleclass = require("middleclass")
+local types = require("luaplot.types")
 
 ---
 -- @table instance
@@ -21,9 +22,9 @@ function Plot:initialize(length, minimum, maximum)
   minimum = minimum or 0
   maximum = maximum or 1
 
-  assert(type(length) == "number" and length >= 0)
-  assert(type(minimum) == "number")
-  assert(type(maximum) == "number" and maximum >= minimum)
+  assert(types.is_number_with_limits(length, 0))
+  assert(types.is_number_with_limits(minimum))
+  assert(types.is_number_with_limits(maximum, minimum))
 
   self._points = {}
   for _ = 1, length do
@@ -38,7 +39,7 @@ end
 -- @tparam number index
 -- @treturn number
 function Plot:__index(index)
-  assert(type(index) == "number")
+  assert(types.is_number_with_limits(index))
 
   return self._points[index]
 end
@@ -52,7 +53,7 @@ end
 function Plot:__ipairs()
   local function iterator(points, index)
     assert(type(points) == "table")
-    assert(type(index) == "number" and index >= 0)
+    assert(types.is_number_with_limits(index, 0))
 
     local next_index = index + 1
     local next_item = points[next_index]
@@ -69,7 +70,7 @@ end
 ---
 -- @tparam number point
 function Plot:push(point)
-  assert(type(point) == "number")
+  assert(types.is_number_with_limits(point))
 
   if point < self._minimum then
     point = self._minimum
@@ -83,7 +84,7 @@ end
 ---
 -- @tparam number factor
 function Plot:push_with_factor(factor)
-  assert(type(factor) == "number")
+  assert(types.is_number_with_limits(factor))
 
   local last_point
   if #self._points ~= 0 then
@@ -100,7 +101,7 @@ end
 ---
 -- @tparam number factor_limit
 function Plot:push_with_random_factor(factor_limit)
-  assert(type(factor_limit) == "number")
+  assert(types.is_number_with_limits(factor_limit))
 
   local factor = 2 * factor_limit * math.random() - factor_limit
   self:push_with_factor(factor)
