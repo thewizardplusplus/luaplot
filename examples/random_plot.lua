@@ -26,17 +26,23 @@ local function sleep(seconds)
   while os.clock() - start < seconds do end
 end
 
+local WIDTH = 40
+local HEIGHT = 10
+local NOISE_FACTOR = 1.5
+local PRINT_DELAY = 0.1
+
 math.randomseed(os.time())
 
 local plot = Plot:new(0)
-for _ = 1, 10 do
+for _ = 1, WIDTH do
   plot:push(0.5)
 end
 
+local vertical_step = 1 / HEIGHT
 while true do
   plot:shift()
-  plot:push_with_random_factor(0.2)
+  plot:push_with_random_factor(NOISE_FACTOR * vertical_step)
 
-  print_plot(plot, 0.2)
-  sleep(0.2)
+  print_plot(plot, vertical_step)
+  sleep(PRINT_DELAY)
 end
