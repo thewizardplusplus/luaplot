@@ -1,4 +1,5 @@
 local luaunit = require("luaunit")
+local types = require("luaplot.types")
 local Plot = require("luaplot.plot")
 
 -- luacheck: globals TestPlot
@@ -8,10 +9,7 @@ function TestPlot.test_new_full()
   local plot = Plot:new(5, 12, 23)
 
   luaunit.assert_is_table(plot)
-  luaunit.assert_is_function(plot.isInstanceOf)
-  luaunit.assert_true(type(plot) == "table"
-    and type(plot.isInstanceOf) == "function"
-    and plot:isInstanceOf(Plot))
+  luaunit.assert_true(types.is_instance(plot, Plot))
 
   luaunit.assert_is_table(plot._points)
   luaunit.assert_equals(plot._points, {12, 12, 12, 12, 12})
@@ -27,10 +25,7 @@ function TestPlot.test_new_partial()
   local plot = Plot:new(5)
 
   luaunit.assert_is_table(plot)
-  luaunit.assert_is_function(plot.isInstanceOf)
-  luaunit.assert_true(type(plot) == "table"
-    and type(plot.isInstanceOf) == "function"
-    and plot:isInstanceOf(Plot))
+  luaunit.assert_true(types.is_instance(plot, Plot))
 
   luaunit.assert_is_table(plot._points)
   luaunit.assert_equals(plot._points, {0, 0, 0, 0, 0})
