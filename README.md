@@ -2,6 +2,21 @@
 
 The library that implements a model of a 2D plot with support for displaying functions of time (as in an oscilloscope).
 
+## Installation
+
+Clone this repository:
+
+```
+$ git clone https://github.com/thewizardplusplus/luaplot.git
+$ cd luaplot
+```
+
+Install the library with the [LuaRocks](https://luarocks.org/) tool:
+
+```
+$ luarocks make
+```
+
 ## Examples
 
 `luaplot.Plot`:
