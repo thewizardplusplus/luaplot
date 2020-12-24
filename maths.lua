@@ -24,4 +24,15 @@ function maths.clamp(value, minimum, maximum)
   return value
 end
 
+---
+-- @tparam number minimum
+-- @tparam number maximum [minimum, ∞)
+-- @treturn number [minimum, maximum)
+function maths.random_in_range(minimum, maximum)
+  assert(types.is_number_with_limits(minimum))
+  assert(types.is_number_with_limits(maximum, minimum))
+
+  return math.random() * (maximum - minimum) + minimum
+end
+
 return maths

@@ -99,7 +99,7 @@ end
 function Plot:push_with_random_factor(factor_limit)
   assert(types.is_number_with_limits(factor_limit))
 
-  local factor = 2 * factor_limit * math.random() - factor_limit
+  local factor = maths.random_in_range(-factor_limit, factor_limit)
   self:push_with_factor(factor)
 end
 
