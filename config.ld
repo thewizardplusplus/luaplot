@@ -1,6 +1,7 @@
 project = "luaplot"
 file = {
   "types.lua",
+  "maths.lua",
   "plot.lua",
 }
 examples = {

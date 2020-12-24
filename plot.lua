@@ -3,6 +3,7 @@
 
 local middleclass = require("middleclass")
 local types = require("luaplot.types")
+local maths = require("luaplot.maths")
 
 ---
 -- @table instance
@@ -72,12 +73,7 @@ end
 function Plot:push(point)
   assert(types.is_number_with_limits(point))
 
-  if point < self._minimum then
-    point = self._minimum
-  end
-  if point > self._maximum then
-    point = self._maximum
-  end
+  point = maths.clamp(point, self._minimum, self._maximum)
   table.insert(self._points, point)
 end
 
