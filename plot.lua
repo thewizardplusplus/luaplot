@@ -4,6 +4,7 @@
 local middleclass = require("middleclass")
 local types = require("luaplot.types")
 local maths = require("luaplot.maths")
+local iterators = require("luaplot.iterators")
 
 ---
 -- @table instance
@@ -47,25 +48,11 @@ end
 
 ---
 -- It is used for iterating over plot points in Lua 5.2.
--- @treturn func func(points: {number,...}, index: number):
---   nil|(number, number); iterator function
+-- @treturn iterators.inext iterator function
 -- @treturn {number,...} points
 -- @treturn number always zero
 function Plot:__ipairs()
-  local function iterator(points, index)
-    assert(type(points) == "table")
-    assert(types.is_number_with_limits(index, 0))
-
-    local next_index = index + 1
-    local next_item = points[next_index]
-    if next_item == nil then
-      return
-    end
-
-    return next_index, next_item
-  end
-
-  return iterator, self._points, 0
+  return iterators.inext, self._points, 0
 end
 
 ---
