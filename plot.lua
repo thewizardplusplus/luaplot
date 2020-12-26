@@ -38,7 +38,7 @@ end
 
 ---
 -- It is used for iterating over plot points in Lua 5.3+.
--- @tparam number index
+-- @tparam number index [1, ∞)
 -- @treturn number
 function Plot:__index(index)
   assert(types.is_number_with_limits(index, 1))
