@@ -37,6 +37,53 @@ function TestPlot.test_new_partial()
   luaunit.assert_equals(plot._maximum, 1)
 end
 
+function TestPlot.test_index_middle()
+  local plot = Plot:new(0)
+  for i = 1, 5 do
+    plot:push(i / 10)
+  end
+
+  local point = plot[3]
+
+  luaunit.assert_is_number(point)
+  luaunit.assert_equals(point, 0.3)
+end
+
+function TestPlot.test_index_start()
+  local plot = Plot:new(0)
+  for i = 1, 5 do
+    plot:push(i / 10)
+  end
+
+  local point = plot[1]
+
+  luaunit.assert_is_number(point)
+  luaunit.assert_equals(point, 0.1)
+end
+
+function TestPlot.test_index_end()
+  local plot = Plot:new(0)
+  for i = 1, 5 do
+    plot:push(i / 10)
+  end
+
+  local point = plot[5]
+
+  luaunit.assert_is_number(point)
+  luaunit.assert_equals(point, 0.5)
+end
+
+function TestPlot.test_index_after_end()
+  local plot = Plot:new(0)
+  for i = 1, 5 do
+    plot:push(i / 10)
+  end
+
+  local result = plot[6]
+
+  luaunit.assert_is_nil(result)
+end
+
 function TestPlot.test_ipairs_function()
   local plot = Plot:new(0)
   for i = 1, 5 do
