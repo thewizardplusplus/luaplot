@@ -4,6 +4,7 @@ for _, module in ipairs({
   "plot",
   "types",
   "maths",
+  "iterators",
 }) do
   require("luaplot." .. module .. "_test")
 end
