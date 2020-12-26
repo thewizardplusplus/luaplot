@@ -49,7 +49,7 @@ end
 ---
 -- It is used for iterating over plot points in Lua 5.2.
 -- @treturn iterators.inext iterator function
--- @treturn {number,...} points
+-- @treturn {number,...} self._points
 -- @treturn number always zero
 function Plot:__ipairs()
   return iterators.inext, self._points, 0
