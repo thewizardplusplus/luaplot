@@ -6,19 +6,22 @@ local Plot = require("luaplot.plot")
 TestPlot = {}
 
 function TestPlot.test_new_full()
-  local plot = Plot:new(5, 12, 23)
+  local plot = Plot:new(5, 32, 23, 42)
 
   luaunit.assert_is_table(plot)
   luaunit.assert_true(types.is_instance(plot, Plot))
 
   luaunit.assert_is_table(plot._points)
-  luaunit.assert_equals(plot._points, {12, 12, 12, 12, 12})
+  luaunit.assert_equals(plot._points, {32, 32, 32, 32, 32})
+
+  luaunit.assert_is_number(plot._default)
+  luaunit.assert_equals(plot._default, 32)
 
   luaunit.assert_is_number(plot._minimum)
-  luaunit.assert_equals(plot._minimum, 12)
+  luaunit.assert_equals(plot._minimum, 23)
 
   luaunit.assert_is_number(plot._maximum)
-  luaunit.assert_equals(plot._maximum, 23)
+  luaunit.assert_equals(plot._maximum, 42)
 end
 
 function TestPlot.test_new_partial()
@@ -29,6 +32,9 @@ function TestPlot.test_new_partial()
 
   luaunit.assert_is_table(plot._points)
   luaunit.assert_equals(plot._points, {0, 0, 0, 0, 0})
+
+  luaunit.assert_is_number(plot._default)
+  luaunit.assert_equals(plot._default, 0)
 
   luaunit.assert_is_number(plot._minimum)
   luaunit.assert_equals(plot._minimum, 0)
