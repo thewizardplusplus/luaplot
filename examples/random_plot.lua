@@ -33,11 +33,7 @@ local PRINT_DELAY = 0.1
 
 math.randomseed(os.time())
 
-local plot = Plot:new(0)
-for _ = 1, WIDTH do
-  plot:push(0.5)
-end
-
+local plot = Plot:new(WIDTH, 0.5)
 local vertical_step = 1 / HEIGHT
 while true do
   plot:shift()
