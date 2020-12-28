@@ -44,7 +44,7 @@ function TestPlot.test_new_partial()
 end
 
 function TestPlot.test_index_middle()
-  local plot = Plot:new(0)
+  local plot = Plot:new(0, 0.5)
   for i = 1, 5 do
     plot:push(i / 10)
   end
@@ -56,7 +56,7 @@ function TestPlot.test_index_middle()
 end
 
 function TestPlot.test_index_start()
-  local plot = Plot:new(0)
+  local plot = Plot:new(0, 0.5)
   for i = 1, 5 do
     plot:push(i / 10)
   end
@@ -68,7 +68,7 @@ function TestPlot.test_index_start()
 end
 
 function TestPlot.test_index_end()
-  local plot = Plot:new(0)
+  local plot = Plot:new(0, 0.5)
   for i = 1, 5 do
     plot:push(i / 10)
   end
@@ -80,7 +80,7 @@ function TestPlot.test_index_end()
 end
 
 function TestPlot.test_index_after_end()
-  local plot = Plot:new(0)
+  local plot = Plot:new(0, 0.5)
   for i = 1, 5 do
     plot:push(i / 10)
   end
@@ -91,7 +91,7 @@ function TestPlot.test_index_after_end()
 end
 
 function TestPlot.test_ipairs_function()
-  local plot = Plot:new(0)
+  local plot = Plot:new(0, 0.5)
   for i = 1, 5 do
     plot:push(i / 10)
   end
@@ -111,7 +111,7 @@ function TestPlot.test_ipairs_function()
 end
 
 function TestPlot.test_ipairs_function_empty()
-  local plot = Plot:new(0)
+  local plot = Plot:new(0, 0.5)
 
   local points = {}
   for index, point in ipairs(plot) do
@@ -122,7 +122,7 @@ function TestPlot.test_ipairs_function_empty()
 end
 
 function TestPlot.test_ipairs_metamethod()
-  local plot = Plot:new(0)
+  local plot = Plot:new(0, 0.5)
   for i = 1, 5 do
     plot:push(i / 10)
   end
@@ -142,7 +142,7 @@ function TestPlot.test_ipairs_metamethod()
 end
 
 function TestPlot.test_ipairs_metamethod_empty()
-  local plot = Plot:new(0)
+  local plot = Plot:new(0, 0.5)
 
   local points = {}
   for index, point in plot:__ipairs() do
@@ -153,31 +153,31 @@ function TestPlot.test_ipairs_metamethod_empty()
 end
 
 function TestPlot.test_push_in_range()
-  local plot = Plot:new(5)
+  local plot = Plot:new(5, 0.5)
   plot:push(0.2)
 
   luaunit.assert_is_table(plot._points)
-  luaunit.assert_equals(plot._points, {0, 0, 0, 0, 0, 0.2})
+  luaunit.assert_equals(plot._points, {0.5, 0.5, 0.5, 0.5, 0.5, 0.2})
 end
 
 function TestPlot.test_push_too_less()
-  local plot = Plot:new(5)
+  local plot = Plot:new(5, 0.5)
   plot:push(-0.2)
 
   luaunit.assert_is_table(plot._points)
-  luaunit.assert_equals(plot._points, {0, 0, 0, 0, 0, 0})
+  luaunit.assert_equals(plot._points, {0.5, 0.5, 0.5, 0.5, 0.5, 0})
 end
 
 function TestPlot.test_push_too_greater()
-  local plot = Plot:new(5)
+  local plot = Plot:new(5, 0.5)
   plot:push(1.2)
 
   luaunit.assert_is_table(plot._points)
-  luaunit.assert_equals(plot._points, {0, 0, 0, 0, 0, 1})
+  luaunit.assert_equals(plot._points, {0.5, 0.5, 0.5, 0.5, 0.5, 1})
 end
 
 function TestPlot.test_push_empty()
-  local plot = Plot:new(0)
+  local plot = Plot:new(0, 0.5)
   plot:push(0.2)
 
   luaunit.assert_is_table(plot._points)
@@ -185,54 +185,50 @@ function TestPlot.test_push_empty()
 end
 
 function TestPlot.test_push_with_factor_in_range_positive()
-  local plot = Plot:new(5)
-  plot:push(0.5)
+  local plot = Plot:new(5, 0.5)
   plot:push_with_factor(0.2)
 
   luaunit.assert_is_table(plot._points)
-  luaunit.assert_equals(plot._points, {0, 0, 0, 0, 0, 0.5, 0.7})
+  luaunit.assert_equals(plot._points, {0.5, 0.5, 0.5, 0.5, 0.5, 0.7})
 end
 
 function TestPlot.test_push_with_factor_in_range_negative()
-  local plot = Plot:new(5)
-  plot:push(0.5)
+  local plot = Plot:new(5, 0.5)
   plot:push_with_factor(-0.2)
 
   luaunit.assert_is_table(plot._points)
-  luaunit.assert_equals(plot._points, {0, 0, 0, 0, 0, 0.5, 0.3})
+  luaunit.assert_equals(plot._points, {0.5, 0.5, 0.5, 0.5, 0.5, 0.3})
 end
 
 function TestPlot.test_push_with_factor_out_range()
-  local plot = Plot:new(5)
-  plot:push(0.5)
+  local plot = Plot:new(5, 0.5)
   plot:push_with_factor(0.6)
 
   luaunit.assert_is_table(plot._points)
-  luaunit.assert_equals(plot._points, {0, 0, 0, 0, 0, 0.5, 1})
+  luaunit.assert_equals(plot._points, {0.5, 0.5, 0.5, 0.5, 0.5, 1})
 end
 
 function TestPlot.test_push_with_factor_empty()
-  local plot = Plot:new(0)
-  plot:push_with_factor(0.5)
+  local plot = Plot:new(0, 0.5)
+  plot:push_with_factor(0.2)
 
   luaunit.assert_is_table(plot._points)
-  luaunit.assert_equals(plot._points, {0.5})
+  luaunit.assert_equals(plot._points, {0.7})
 end
 
 function TestPlot.test_push_with_random_factor()
   math.randomseed(1)
 
-  local plot = Plot:new(5)
-  plot:push(0.5)
+  local plot = Plot:new(5, 0.5)
   plot:push_with_random_factor(0.2)
 
   luaunit.assert_is_table(plot._points)
-  luaunit.assert_equals(#plot._points, 7)
-  luaunit.assert_almost_equals(plot._points[7], 0.457753, 1e-6)
+  luaunit.assert_equals(#plot._points, 6)
+  luaunit.assert_almost_equals(plot._points[6], 0.457753, 1e-6)
 end
 
 function TestPlot.test_shift()
-  local plot = Plot:new(0)
+  local plot = Plot:new(0, 0.5)
   for i = 1, 5 do
     plot:push(i / 10)
   end
@@ -247,12 +243,12 @@ function TestPlot.test_shift()
 end
 
 function TestPlot.test_shift_empty()
-  local plot = Plot:new(0)
+  local plot = Plot:new(0, 0.5)
   local first_point = plot:shift()
 
   luaunit.assert_is_table(plot._points)
   luaunit.assert_equals(plot._points, {})
 
   luaunit.assert_is_number(first_point)
-  luaunit.assert_equals(first_point, 0)
+  luaunit.assert_equals(first_point, 0.5)
 end
