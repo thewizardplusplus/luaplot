@@ -68,4 +68,22 @@ end
 -- @function shift
 -- @treturn number
 
+---
+-- @tparam number value
+-- @treturn number
+function Oscillogram:update(value)
+  assert(types.is_number_with_limits(value))
+
+  if self._kind == "custom" then
+    self:push(value)
+  elseif self._kind == "linear" then
+    self:push_with_factor(value)
+  elseif self._kind == "random" then
+    self:push_with_random_factor(value)
+  end
+
+  local first_point = self:shift()
+  return first_point
+end
+
 return Oscillogram
