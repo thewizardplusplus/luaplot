@@ -25,4 +25,19 @@ function PlotIterator:initialize(plot, transformer)
   self._transformer = transformer
 end
 
+---
+-- It is used for iterating over plot points in Lua 5.3+.
+-- @tparam number index [1, ∞)
+-- @treturn number
+function PlotIterator:__index(index)
+  assert(types.is_number_with_limits(index, 1))
+
+  local point = self._plot[index]
+  if point == nil then
+    return
+  end
+
+  return self._transformer(index, point)
+end
+
 return PlotIterator
