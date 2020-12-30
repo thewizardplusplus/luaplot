@@ -24,3 +24,79 @@ function TestPlotIterator.test_new()
   luaunit.assert_is_function(iterator._transformer)
   luaunit.assert_equals(iterator._transformer, transformer)
 end
+
+function TestPlotIterator.test_index_middle()
+  local function transformer(index, point)
+    assert(types.is_number_with_limits(index, 1))
+    assert(types.is_number_with_limits(point))
+
+    return point * index
+  end
+
+  local plot = Plot:new(0, 0.5)
+  for i = 1, 5 do
+    plot:push(i / 10)
+  end
+
+  local iterator = PlotIterator:new(plot, transformer)
+  local point = iterator[3]
+
+  luaunit.assert_is_number(point)
+  luaunit.assert_almost_equals(point, 0.9, 1e-6)
+end
+
+function TestPlotIterator.test_index_start()
+  local function transformer(index, point)
+    assert(types.is_number_with_limits(index, 1))
+    assert(types.is_number_with_limits(point))
+
+    return point * index
+  end
+
+  local plot = Plot:new(0, 0.5)
+  for i = 1, 5 do
+    plot:push(i / 10)
+  end
+
+  local iterator = PlotIterator:new(plot, transformer)
+  local point = iterator[1]
+
+  luaunit.assert_is_number(point)
+  luaunit.assert_almost_equals(point, 0.1, 1e-6)
+end
+
+function TestPlotIterator.test_index_end()
+  local function transformer(index, point)
+    assert(types.is_number_with_limits(index, 1))
+    assert(types.is_number_with_limits(point))
+
+    return point * index
+  end
+
+  local plot = Plot:new(0, 0.5)
+  for i = 1, 5 do
+    plot:push(i / 10)
+  end
+
+  local iterator = PlotIterator:new(plot, transformer)
+  local point = iterator[5]
+
+  luaunit.assert_is_number(point)
+  luaunit.assert_almost_equals(point, 2.5, 1e-6)
+end
+
+function TestPlotIterator.test_index_after_end()
+  local function transformer()
+    assert(false, "it should not be called")
+  end
+
+  local plot = Plot:new(0, 0.5)
+  for i = 1, 5 do
+    plot:push(i / 10)
+  end
+
+  local iterator = PlotIterator:new(plot, transformer)
+  local result = iterator[6]
+
+  luaunit.assert_is_nil(result)
+end
