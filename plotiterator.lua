@@ -3,6 +3,7 @@
 
 local middleclass = require("middleclass")
 local types = require("luaplot.types")
+local iterators = require("luaplot.iterators")
 local Plot = require("luaplot.plot")
 
 ---
@@ -38,6 +39,15 @@ function PlotIterator:__index(index)
   end
 
   return self._transformer(index, point)
+end
+
+---
+-- It is used for iterating over plot points in Lua 5.2.
+-- @treturn iterators.inext iterator function
+-- @treturn PlotIterator self
+-- @treturn number always zero
+function PlotIterator:__ipairs()
+  return iterators.inext, self, 0
 end
 
 return PlotIterator
