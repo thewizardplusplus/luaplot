@@ -100,3 +100,105 @@ function TestPlotIterator.test_index_after_end()
 
   luaunit.assert_is_nil(result)
 end
+
+function TestPlotIterator.test_ipairs_function()
+  local function transformer(index, point)
+    assert(types.is_number_with_limits(index, 1))
+    assert(types.is_number_with_limits(point))
+
+    return point * index
+  end
+
+  local plot = Plot:new(0, 0.5)
+  for i = 1, 5 do
+    plot:push(i / 10)
+  end
+
+  local iterator = PlotIterator:new(plot, transformer)
+
+  local points = {}
+  for index, point in ipairs(iterator) do
+    table.insert(points, {index = index, point = point})
+  end
+
+  local wanted_points = {
+    {index = 1, point = 0.1},
+    {index = 2, point = 0.4},
+    {index = 3, point = 0.9},
+    {index = 4, point = 1.6},
+    {index = 5, point = 2.5},
+  }
+  luaunit.assert_equals(#points, #wanted_points)
+  for index, point in ipairs(points) do
+    local wanted_point = wanted_points[index]
+    luaunit.assert_equals(point.index, wanted_point.index)
+    luaunit.assert_almost_equals(point.point, wanted_point.point, 1e-6)
+  end
+end
+
+function TestPlotIterator.test_ipairs_function_empty()
+  local function transformer()
+    assert(false, "it should not be called")
+  end
+
+  local plot = Plot:new(0, 0.5)
+  local iterator = PlotIterator:new(plot, transformer)
+
+  local points = {}
+  for index, point in ipairs(iterator) do
+    table.insert(points, {index = index, point = point})
+  end
+
+  luaunit.assert_equals(points, {})
+end
+
+function TestPlotIterator.test_ipairs_metamethod()
+  local function transformer(index, point)
+    assert(types.is_number_with_limits(index, 1))
+    assert(types.is_number_with_limits(point))
+
+    return point * index
+  end
+
+  local plot = Plot:new(0, 0.5)
+  for i = 1, 5 do
+    plot:push(i / 10)
+  end
+
+  local iterator = PlotIterator:new(plot, transformer)
+
+  local points = {}
+  for index, point in iterator:__ipairs() do
+    table.insert(points, {index = index, point = point})
+  end
+
+  local wanted_points = {
+    {index = 1, point = 0.1},
+    {index = 2, point = 0.4},
+    {index = 3, point = 0.9},
+    {index = 4, point = 1.6},
+    {index = 5, point = 2.5},
+  }
+  luaunit.assert_equals(#points, #wanted_points)
+  for index, point in ipairs(points) do
+    local wanted_point = wanted_points[index]
+    luaunit.assert_equals(point.index, wanted_point.index)
+    luaunit.assert_almost_equals(point.point, wanted_point.point, 1e-6)
+  end
+end
+
+function TestPlotIterator.test_ipairs_metamethod_empty()
+  local function transformer()
+    assert(false, "it should not be called")
+  end
+
+  local plot = Plot:new(0, 0.5)
+  local iterator = PlotIterator:new(plot, transformer)
+
+  local points = {}
+  for index, point in iterator:__ipairs() do
+    table.insert(points, {index = index, point = point})
+  end
+
+  luaunit.assert_equals(points, {})
+end
