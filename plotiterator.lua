@@ -20,7 +20,7 @@ local PlotIterator = middleclass("PlotIterator")
 -- @treturn PlotIterator
 function PlotIterator:initialize(plot, transformer)
   assert(types.is_instance(plot, Plot))
-  assert(types._is_callable(transformer))
+  assert(types.is_callable(transformer))
 
   self._plot = plot
   self._transformer = transformer

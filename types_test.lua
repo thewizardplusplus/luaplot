@@ -123,7 +123,7 @@ function TestTypes.test_is_instance_true_real_class()
 end
 
 function TestTypes.test_is_callable_false_missed_metatable()
-  local result = types._is_callable({})
+  local result = types.is_callable({})
 
   luaunit.assert_is_nil(result)
 end
@@ -132,7 +132,7 @@ function TestTypes.test_is_callable_false_missed_metamethod()
   local value = {}
   setmetatable(value, {})
 
-  local result = types._is_callable(value)
+  local result = types.is_callable(value)
 
   luaunit.assert_is_nil(result)
 end
@@ -141,7 +141,7 @@ function TestTypes.test_is_callable_false_incorrect_metamethod()
   local value = {}
   setmetatable(value, {__call = 23})
 
-  local result = types._is_callable(value)
+  local result = types.is_callable(value)
 
   luaunit.assert_is_nil(result)
 end
@@ -150,7 +150,7 @@ function TestTypes.test_is_callable_true_function()
   local value = function()
   end
 
-  local result = types._is_callable(value)
+  local result = types.is_callable(value)
 
   luaunit.assert_is_boolean(result)
   luaunit.assert_true(result)
@@ -163,7 +163,7 @@ function TestTypes.test_is_callable_true_metatable()
     end,
   })
 
-  local result = types._is_callable(value)
+  local result = types.is_callable(value)
 
   luaunit.assert_is_boolean(result)
   luaunit.assert_true(result)

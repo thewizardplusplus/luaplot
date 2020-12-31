@@ -28,14 +28,14 @@ function types.is_instance(value, class)
   assert(type(class) == "table")
 
   return type(value) == "table"
-    and types._is_callable(value.isInstanceOf)
+    and types.is_callable(value.isInstanceOf)
     and value:isInstanceOf(class)
 end
 
 ---
 -- @tparam any value
 -- @treturn bool
-function types._is_callable(value)
+function types.is_callable(value)
   if type(value) == "function" then
     return true
   end
@@ -51,7 +51,7 @@ function types._has_metamethod(value, metamethod)
   assert(type(metamethod) == "string")
 
   local metatable = getmetatable(value)
-  return metatable and types._is_callable(metatable[metamethod])
+  return metatable and types.is_callable(metatable[metamethod])
 end
 
 return types
