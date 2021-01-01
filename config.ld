@@ -5,6 +5,7 @@ file = {
   "iterators.lua",
   "plot.lua",
   "plotiterator.lua",
+  "plotiteratorfactory.lua",
   "oscillogram.lua",
 }
 examples = {
