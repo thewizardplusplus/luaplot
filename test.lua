@@ -3,6 +3,7 @@ local luaunit = require("luaunit")
 for _, module in ipairs({
   "plot",
   "plotiterator",
+  "plotiteratorfactory",
   "oscillogram",
   "types",
   "maths",
