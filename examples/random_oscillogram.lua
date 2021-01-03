@@ -27,18 +27,19 @@ local function sleep(seconds)
   while os.clock() - start < seconds do end
 end
 
+local SPEED = 0.25
 local WIDTH = 40
 local HEIGHT = 10
-local NOISE_FACTOR = 1.5
-local PRINT_DELAY = 0.1
+local VERTICAL_STEP = 1 / HEIGHT
+local PRINT_DELAY = 1 / (SPEED * WIDTH)
+local FACTOR = 1.5 * PRINT_DELAY
 
 math.randomseed(os.time())
 
 local plot = Oscillogram:new("random", WIDTH, 0.5)
-local vertical_step = 1 / HEIGHT
 while true do
-  plot:update(NOISE_FACTOR * vertical_step)
+  plot:update(FACTOR)
 
-  print_plot(plot, vertical_step)
+  print_plot(plot, VERTICAL_STEP)
   sleep(PRINT_DELAY)
 end
