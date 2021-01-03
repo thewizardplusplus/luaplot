@@ -170,7 +170,7 @@ function TestTypes.test_is_callable_true_metatable()
 end
 
 function TestTypes.test_has_metamethod_false_missed_metatable()
-  local result = types._has_metamethod({}, "__test")
+  local result = types.has_metamethod({}, "__test")
 
   luaunit.assert_is_nil(result)
 end
@@ -179,7 +179,7 @@ function TestTypes.test_has_metamethod_false_missed_metamethod()
   local value = {}
   setmetatable(value, {})
 
-  local result = types._has_metamethod(value, "__test")
+  local result = types.has_metamethod(value, "__test")
 
   luaunit.assert_is_nil(result)
 end
@@ -188,7 +188,7 @@ function TestTypes.test_has_metamethod_false_incorrect_metamethod()
   local value = {}
   setmetatable(value, {__test = 23})
 
-  local result = types._has_metamethod(value, "__test")
+  local result = types.has_metamethod(value, "__test")
 
   luaunit.assert_is_nil(result)
 end
@@ -200,7 +200,7 @@ function TestTypes.test_has_metamethod_true()
     end,
   })
 
-  local result = types._has_metamethod(value, "__test")
+  local result = types.has_metamethod(value, "__test")
 
   luaunit.assert_is_boolean(result)
   luaunit.assert_true(result)

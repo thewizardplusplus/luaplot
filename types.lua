@@ -40,14 +40,14 @@ function types.is_callable(value)
     return true
   end
 
-  return types._has_metamethod(value, "__call")
+  return types.has_metamethod(value, "__call")
 end
 
 ---
 -- @tparam any value
 -- @tparam string metamethod
 -- @treturn bool
-function types._has_metamethod(value, metamethod)
+function types.has_metamethod(value, metamethod)
   assert(type(metamethod) == "string")
 
   local metatable = getmetatable(value)

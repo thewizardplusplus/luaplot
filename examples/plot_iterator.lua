@@ -5,7 +5,7 @@ local PlotIterator = require("luaplot.plotiterator")
 
 local function print_iterable(iterable)
   local ipairs_metamethod = _VERSION >= "Lua 5.3" and "__index" or "__ipairs"
-  assert(types._has_metamethod(iterable, ipairs_metamethod))
+  assert(types.has_metamethod(iterable, ipairs_metamethod))
 
   local points = {}
   for _, point in ipairs(iterable) do
