@@ -55,6 +55,18 @@ function TestPlot.test_index_middle()
   luaunit.assert_equals(point, 0.3)
 end
 
+function TestPlot.test_index_middle_fractional()
+  local plot = Plot:new(0, 0.5)
+  for i = 1, 5 do
+    plot:push(i / 10)
+  end
+
+  local point = plot[3.2]
+
+  luaunit.assert_is_number(point)
+  luaunit.assert_equals(point, 0.32)
+end
+
 function TestPlot.test_index_start()
   local plot = Plot:new(0, 0.5)
   for i = 1, 5 do
@@ -86,6 +98,17 @@ function TestPlot.test_index_after_end()
   end
 
   local result = plot[6]
+
+  luaunit.assert_is_nil(result)
+end
+
+function TestPlot.test_index_after_end_fractional()
+  local plot = Plot:new(0, 0.5)
+  for i = 1, 5 do
+    plot:push(i / 10)
+  end
+
+  local result = plot[5.2]
 
   luaunit.assert_is_nil(result)
 end
