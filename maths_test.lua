@@ -39,6 +39,27 @@ function TestMaths.test_clamp_after_maximum()
   luaunit.assert_equals(result, 42)
 end
 
+function TestMaths.test_lerp_middle()
+  local result = maths.lerp(23, 42, 0.2)
+
+  luaunit.assert_is_number(result)
+  luaunit.assert_equals(result, 26.8)
+end
+
+function TestMaths.test_lerp_minimum()
+  local result = maths.lerp(23, 42, 0)
+
+  luaunit.assert_is_number(result)
+  luaunit.assert_equals(result, 23)
+end
+
+function TestMaths.test_lerp_maximum()
+  local result = maths.lerp(23, 42, 1)
+
+  luaunit.assert_is_number(result)
+  luaunit.assert_equals(result, 42)
+end
+
 function TestMaths.test_random_in_range()
   math.randomseed(1)
 
