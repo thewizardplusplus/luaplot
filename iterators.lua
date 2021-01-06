@@ -26,4 +26,19 @@ function iterators.inext(items, index)
   return next_index, next_item
 end
 
+---
+-- @tparam tab indexable_one
+-- @tparam tab indexable_two
+-- @tparam number index [1, ∞)
+-- @treturn number
+function iterators.difference(indexable_one, indexable_two, index)
+  assert(types.has_metamethod(indexable_one, "__index"))
+  assert(types.has_metamethod(indexable_two, "__index"))
+  assert(types.is_number_with_limits(index, 1))
+
+  local item_one = indexable_one[index]
+  local item_two = indexable_two[index]
+  return item_one - item_two
+end
+
 return iterators
