@@ -3,6 +3,7 @@ file = {
   "types.lua",
   "maths.lua",
   "iterators.lua",
+  "iterable.lua",
   "plot.lua",
   "plotiterator.lua",
   "plotiteratorfactory.lua",

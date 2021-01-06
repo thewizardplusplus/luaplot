@@ -4,7 +4,7 @@
 local middleclass = require("middleclass")
 local types = require("luaplot.types")
 local maths = require("luaplot.maths")
-local iterators = require("luaplot.iterators")
+local Iterable = require("luaplot.iterable")
 
 ---
 -- @table instance
@@ -14,6 +14,7 @@ local iterators = require("luaplot.iterators")
 -- @tfield number _maximum
 
 local Plot = middleclass("Plot")
+Plot:include(Iterable)
 
 ---
 -- @function new
@@ -67,12 +68,10 @@ end
 
 ---
 -- It is used for iterating over plot points in Lua 5.2.
+-- @function __ipairs
 -- @treturn iterators.inext iterator function
 -- @treturn Plot self
 -- @treturn number always zero
-function Plot:__ipairs()
-  return iterators.inext, self, 0
-end
 
 ---
 -- @tparam number point
