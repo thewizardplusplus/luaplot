@@ -1,5 +1,6 @@
 local luaunit = require("luaunit")
 local iterators = require("luaplot.iterators")
+local Plot = require("luaplot.plot")
 
 -- luacheck: globals TestIterators
 TestIterators = {}
@@ -42,4 +43,55 @@ function TestIterators.test_inext_after_end()
   local result = iterators.inext(items, 5)
 
   luaunit.assert_is_nil(result)
+end
+
+function TestIterators.test_difference_equal()
+  local plot_one = Plot:new(0, 0.5)
+  for i = 1, 5 do
+    plot_one:push(i / 10)
+  end
+
+  local plot_two = Plot:new(0, 0.5)
+  for i = 1, 5 do
+    plot_two:push(i / 10)
+  end
+
+  local difference = iterators.difference(plot_one, plot_two, 2)
+
+  luaunit.assert_is_number(difference)
+  luaunit.assert_almost_equals(difference, 0, 1e-6)
+end
+
+function TestIterators.test_difference_greater()
+  local plot_one = Plot:new(0, 0.5)
+  for i = 1, 5 do
+    plot_one:push(i / 10 + i / 100)
+  end
+
+  local plot_two = Plot:new(0, 0.5)
+  for i = 1, 5 do
+    plot_two:push(i / 10)
+  end
+
+  local difference = iterators.difference(plot_one, plot_two, 2)
+
+  luaunit.assert_is_number(difference)
+  luaunit.assert_almost_equals(difference, 0.02, 1e-6)
+end
+
+function TestIterators.test_difference_less()
+  local plot_one = Plot:new(0, 0.5)
+  for i = 1, 5 do
+    plot_one:push(i / 10 - i / 100)
+  end
+
+  local plot_two = Plot:new(0, 0.5)
+  for i = 1, 5 do
+    plot_two:push(i / 10)
+  end
+
+  local difference = iterators.difference(plot_one, plot_two, 2)
+
+  luaunit.assert_is_number(difference)
+  luaunit.assert_almost_equals(difference, -0.02, 1e-6)
 end
