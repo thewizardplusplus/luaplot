@@ -45,6 +45,13 @@ end
 
 ---
 -- @tparam any value
+-- @treturn bool
+function types.is_indexable(value)
+  return types.has_metamethod(value, "__index")
+end
+
+---
+-- @tparam any value
 -- @tparam string metamethod
 -- @treturn bool
 function types.has_metamethod(value, metamethod)

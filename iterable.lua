@@ -12,7 +12,7 @@ local Iterable = {}
 -- @treturn Iterable self
 -- @treturn number always zero
 function Iterable:__ipairs()
-  assert(types.has_metamethod(self, "__index"))
+  assert(types.is_indexable(self))
 
   return iterators.inext, self, 0
 end

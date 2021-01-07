@@ -33,8 +33,8 @@ end
 -- @tparam[opt=false] bool modulo
 -- @treturn number
 function iterators.difference(indexable_one, indexable_two, index, modulo)
-  assert(types.has_metamethod(indexable_one, "__index"))
-  assert(types.has_metamethod(indexable_two, "__index"))
+  assert(types.is_indexable(indexable_one))
+  assert(types.is_indexable(indexable_two))
   assert(types.is_number_with_limits(index, 1))
   assert(modulo == nil or type(modulo) == "boolean")
 

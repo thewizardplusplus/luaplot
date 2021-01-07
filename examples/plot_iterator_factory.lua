@@ -4,8 +4,11 @@ local Plot = require("luaplot.plot")
 local PlotIteratorFactory = require("luaplot.plotiteratorfactory")
 
 local function print_iterable(iterable)
-  local ipairs_metamethod = _VERSION >= "Lua 5.3" and "__index" or "__ipairs"
-  assert(types.has_metamethod(iterable, ipairs_metamethod))
+  if _VERSION >= "Lua 5.3" then
+    assert(types.is_indexable(iterable))
+  else
+    assert(types.has_metamethod(iterable, "__ipairs"))
+  end
 
   local points = {}
   for _, point in ipairs(iterable) do
