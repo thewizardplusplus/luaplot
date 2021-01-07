@@ -30,15 +30,22 @@ end
 -- @tparam tab indexable_one
 -- @tparam tab indexable_two
 -- @tparam number index [1, ∞)
+-- @tparam[opt=false] bool modulo
 -- @treturn number
-function iterators.difference(indexable_one, indexable_two, index)
+function iterators.difference(indexable_one, indexable_two, index, modulo)
   assert(types.has_metamethod(indexable_one, "__index"))
   assert(types.has_metamethod(indexable_two, "__index"))
   assert(types.is_number_with_limits(index, 1))
+  assert(modulo == nil or type(modulo) == "boolean")
 
   local item_one = indexable_one[index]
   local item_two = indexable_two[index]
-  return item_one - item_two
+  local difference = item_one - item_two
+  if modulo then
+    difference = math.abs(difference)
+  end
+
+  return difference
 end
 
 return iterators
