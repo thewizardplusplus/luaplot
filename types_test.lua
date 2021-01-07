@@ -169,6 +169,31 @@ function TestTypes.test_is_callable_true_metatable()
   luaunit.assert_true(result)
 end
 
+function TestTypes.test_is_indexable_false_not_table()
+  local result = types.is_indexable(nil)
+
+  luaunit.assert_is_nil(result)
+end
+
+function TestTypes.test_is_indexable_false_missed_metamethod()
+  local result = types.is_indexable({})
+
+  luaunit.assert_is_nil(result)
+end
+
+function TestTypes.test_is_indexable_true()
+  local value = {}
+  setmetatable(value, {
+    __index = function()
+    end,
+  })
+
+  local result = types.is_indexable(value)
+
+  luaunit.assert_is_boolean(result)
+  luaunit.assert_true(result)
+end
+
 function TestTypes.test_has_metamethod_false_missed_metatable()
   local result = types.has_metamethod({}, "__test")
 
