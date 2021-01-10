@@ -49,21 +49,26 @@ end
 function Plot:__index(index)
   assert(types.is_number_with_limits(index, 1))
 
-  local minimum_index = math.floor(index)
-  local minimum = self._points[minimum_index]
+  local left_point_index = math.floor(index)
+  local left_point = self._points[left_point_index]
 
-  local progress = index - minimum_index
+  local progress = index - left_point_index
   if progress == 0 then
-    return minimum
+    return left_point
   end
 
-  local maximum_index = math.floor(index + 1)
-  local maximum = self._points[maximum_index]
-  if not maximum then
+  local right_point_index = math.floor(index + 1)
+  local right_point = self._points[right_point_index]
+  if not right_point then
     return nil
   end
 
-  return maths.lerp(minimum, maximum, progress)
+  if right_point < left_point then
+    left_point, right_point = right_point, left_point
+    progress = 1 - progress
+  end
+
+  return maths.lerp(left_point, right_point, progress)
 end
 
 ---
