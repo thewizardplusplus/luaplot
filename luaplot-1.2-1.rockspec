@@ -1,6 +1,6 @@
 rockspec_format = "3.0"
 package = "luaplot"
-version = "1.1-1"
+version = "1.2-1"
 description = {
   license = "MIT",
   maintainer = "thewizardplusplus <thewizardplusplus@yandex.ru>",
@@ -8,7 +8,7 @@ description = {
 }
 source = {
   url = "git+https://github.com/thewizardplusplus/luaplot.git",
-  tag = "v1.1",
+  tag = "v1.2",
 }
 dependencies = {
   "lua >= 5.2, < 5.4",
@@ -26,6 +26,8 @@ build = {
     ["maths_test"] = "maths_test.lua",
     ["iterators"] = "iterators.lua",
     ["iterators_test"] = "iterators_test.lua",
+    ["iterable"] = "iterable.lua",
+    ["iterable_test"] = "iterable_test.lua",
     ["plot"] = "plot.lua",
     ["plot_test"] = "plot_test.lua",
     ["plotiterator"] = "plotiterator.lua",
