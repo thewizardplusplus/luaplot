@@ -1,5 +1,11 @@
 # Change Log
 
+## [v1.2.1](https://github.com/thewizardplusplus/luaplot/tree/v1.2.1) (2021-02-13)
+
+- describing for releases:
+  - features;
+  - change log.
+
 ## [v1.2](https://github.com/thewizardplusplus/luaplot/tree/v1.2) (2021-01-10)
 
 - models:
