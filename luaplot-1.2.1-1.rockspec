@@ -13,6 +13,7 @@ source = {
 dependencies = {
   "lua >= 5.2, < 5.4",
   "middleclass >= 4.1.1, < 5.0",
+  "cpml >= 1.0.0, < 2.0",
 }
 test_dependencies = {
   "luaunit >= 3.3, < 4.0",
