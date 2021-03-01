@@ -69,7 +69,7 @@ function Plot:__index(index)
     progress = 1 - progress
   end
 
-  return maths.lerp(left_point, right_point, progress)
+  return cpml.utils.lerp(left_point, right_point, progress)
 end
 
 ---
