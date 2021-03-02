@@ -8,6 +8,7 @@ file = {
   "plotiterator.lua",
   "plotiteratorfactory.lua",
   "oscillogram.lua",
+  "distancelimit.lua",
 }
 examples = {
   "examples",
