@@ -2,6 +2,7 @@
 -- @module iterators
 
 local types = require("luaplot.types")
+local DistanceLimit = require("luaplot.distancelimit")
 
 local iterators = {}
 
@@ -46,6 +47,43 @@ function iterators.difference(indexable_one, indexable_two, index, modulo)
   end
 
   return difference
+end
+
+---
+-- @tparam tab indexable_one
+-- @tparam tab indexable_two
+-- @tparam number index [1, ∞)
+-- @tparam[opt=false] bool modulo
+-- @tparam {DistanceLimit,...} limits
+-- @treturn any
+function iterators.select_by_distance(
+  indexable_one,
+  indexable_two,
+  index,
+  modulo,
+  limits
+)
+  limits = limits or modulo
+
+  assert(types.is_indexable(indexable_one))
+  assert(types.is_indexable(indexable_two))
+  assert(types.is_number_with_limits(index, 1))
+  assert(modulo == nil or modulo == limits or type(modulo) == "boolean")
+  assert(type(limits) == "table")
+
+  local suitable_value
+  local distance =
+    iterators.difference(indexable_one, indexable_two, index, modulo)
+  for _, limit in ipairs(limits) do
+    assert(types.is_instance(limit, DistanceLimit))
+
+    if distance < limit.maximal_distance then
+      suitable_value = limit.suitable_value
+      break
+    end
+  end
+
+  return suitable_value
 end
 
 return iterators
