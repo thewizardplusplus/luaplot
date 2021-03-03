@@ -63,7 +63,10 @@ function iterators.select_by_distance(
   modulo,
   limits
 )
-  limits = limits or modulo
+  if limits == nil then
+    limits = modulo
+    modulo = nil
+  end
 
   assert(types.is_indexable(indexable_one))
   assert(types.is_indexable(indexable_two))
@@ -77,7 +80,7 @@ function iterators.select_by_distance(
   for _, limit in ipairs(limits) do
     assert(types.is_instance(limit, DistanceLimit))
 
-    if distance < limit.maximal_distance then
+    if distance <= limit.maximal_distance then
       suitable_value = limit.suitable_value
       break
     end
