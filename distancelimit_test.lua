@@ -46,3 +46,18 @@ function TestDistanceLimit.test_new_class()
   luaunit.assert_is_table(limit.suitable_value)
   luaunit.assert_true(types.is_instance(limit.suitable_value, MockClass))
 end
+
+function TestDistanceLimit.test_new_negative_maximum()
+  local MockClass = middleclass("MockClass")
+  local mock = MockClass:new()
+  local limit = DistanceLimit:new(-23, mock)
+
+  luaunit.assert_is_table(limit)
+  luaunit.assert_true(types.is_instance(limit, DistanceLimit))
+
+  luaunit.assert_is_number(limit.maximal_distance)
+  luaunit.assert_equals(limit.maximal_distance, -23)
+
+  luaunit.assert_is_table(limit.suitable_value)
+  luaunit.assert_true(types.is_instance(limit.suitable_value, MockClass))
+end
