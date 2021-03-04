@@ -1,6 +1,7 @@
 local luaunit = require("luaunit")
 local iterators = require("luaplot.iterators")
 local Plot = require("luaplot.plot")
+local DistanceLimit = require("luaplot.distancelimit")
 
 -- luacheck: globals TestIterators
 TestIterators = {}
@@ -145,4 +146,55 @@ function TestIterators.test_difference_less_modulo()
 
   luaunit.assert_is_number(difference)
   luaunit.assert_almost_equals(difference, 0.02, 1e-6)
+end
+
+function TestIterators.test_select_by_distance()
+  local plot_one = Plot:new(0, 0.5)
+  for i = 1, 5 do
+    plot_one:push(i / 10 - i / 100)
+  end
+
+  local plot_two = Plot:new(0, 0.5)
+  for i = 1, 5 do
+    plot_two:push(i / 10)
+  end
+
+  local values = {}
+  for i = 1, 4 do
+    local index = i + 0.5
+    local value = iterators.select_by_distance(plot_one, plot_two, index, {
+      DistanceLimit:new(-0.04, "one"),
+      DistanceLimit:new(-0.02, "two"),
+      DistanceLimit:new(math.huge, "three"),
+    })
+    table.insert(values, value)
+  end
+
+  luaunit.assert_equals(values, {"three", "two", "two", "one"})
+end
+
+function TestIterators.test_select_by_distance_modulo()
+  local plot_one = Plot:new(0, 0.5)
+  for i = 1, 5 do
+    plot_one:push(i / 10 - i / 100)
+  end
+
+  local plot_two = Plot:new(0, 0.5)
+  for i = 1, 5 do
+    plot_two:push(i / 10)
+  end
+
+  local values = {}
+  for i = 1, 4 do
+    local index = i + 0.5
+    local value =
+      iterators.select_by_distance(plot_one, plot_two, index, true, {
+        DistanceLimit:new(0.02, "one"),
+        DistanceLimit:new(0.04, "two"),
+        DistanceLimit:new(math.huge, "three"),
+      })
+    table.insert(values, value)
+  end
+
+  luaunit.assert_equals(values, {"one", "two", "two", "three"})
 end
