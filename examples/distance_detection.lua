@@ -1,6 +1,8 @@
 local types = require("luaplot.types")
+local iterators = require("luaplot.iterators")
 local Plot = require("luaplot.plot")
 local Oscillogram = require("luaplot.oscillogram")
+local DistanceLimit = require("luaplot.distancelimit")
 
 local function print_plot(plot, vertical_step)
   assert(types.is_instance(plot, Plot))
@@ -42,8 +44,21 @@ while true do
   plot_one:update(FACTOR)
   plot_two:update(FACTOR)
 
+  local colors = {}
+  for index = 1, WIDTH do
+    local color = iterators.select_by_distance(plot_one, plot_two, index, {
+      DistanceLimit:new(0.33, "G"),
+      DistanceLimit:new(0.66, "Y"),
+      DistanceLimit:new(math.huge, "R"),
+    })
+    table.insert(colors, color)
+  end
+
   print_plot(plot_one, VERTICAL_STEP)
   print_plot(plot_two, VERTICAL_STEP)
+  for _ = 1, HEIGHT do
+    io.write(table.concat(colors, "") .. "\n")
+  end
   io.write("\n")
 
   sleep(PRINT_DELAY)
