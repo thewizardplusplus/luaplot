@@ -47,20 +47,23 @@ while true do
   plot_one:update(FACTOR)
   plot_two:update(FACTOR)
 
-  local colors = {}
+  local distance_marks = {}
   for index = 1, WIDTH do
-    local color = iterators.select_by_distance(plot_one, plot_two, index, {
-      DistanceLimit:new(0.33, "G"),
-      DistanceLimit:new(0.66, "Y"),
-      DistanceLimit:new(math.huge, "R"),
-    })
-    table.insert(colors, color)
+    local distance_color =
+      iterators.select_by_distance(plot_one, plot_two, index, {
+        DistanceLimit:new(0.33, "green"),
+        DistanceLimit:new(0.66, "yellow"),
+        DistanceLimit:new(math.huge, "red"),
+      })
+    local distance_mark =
+      colors(string.format("%%{%s}#%%{reset}", distance_color))
+    table.insert(distance_marks, distance_mark)
   end
 
   print_plot(plot_one, VERTICAL_STEP)
   print_plot(plot_two, VERTICAL_STEP)
   for _ = 1, HEIGHT do
-    io.write(table.concat(colors, "") .. "\n")
+    io.write(table.concat(distance_marks, "") .. "\n")
   end
   io.write("\n")
 
