@@ -73,6 +73,7 @@ $ luarocks make
 `luaplot.Plot`:
 
 ```lua
+local colors = require("ansicolors")
 local types = require("luaplot.types")
 local Plot = require("luaplot.plot")
 
@@ -84,7 +85,9 @@ local function print_plot(plot, vertical_step)
   for height = 1, 0, -vertical_step do
     for _, point in ipairs(plot) do
       local delta = math.abs(point - height)
-      local symbol = delta < vertical_step / 2 and "*" or "."
+      local symbol = delta < vertical_step / 2
+        and colors("%{cyan}*%{reset}")
+        or "."
       text = text .. symbol
     end
 
@@ -123,6 +126,7 @@ end
 `luaplot.Oscillogram`:
 
 ```lua
+local colors = require("ansicolors")
 local types = require("luaplot.types")
 local Plot = require("luaplot.plot")
 local Oscillogram = require("luaplot.oscillogram")
@@ -135,7 +139,9 @@ local function print_plot(plot, vertical_step)
   for height = 1, 0, -vertical_step do
     for _, point in ipairs(plot) do
       local delta = math.abs(point - height)
-      local symbol = delta < vertical_step / 2 and "*" or "."
+      local symbol = delta < vertical_step / 2
+        and colors("%{cyan}*%{reset}")
+        or "."
       text = text .. symbol
     end
 
