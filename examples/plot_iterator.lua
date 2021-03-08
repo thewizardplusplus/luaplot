@@ -1,3 +1,4 @@
+-- luarocks install inspect 3.1.1-0
 local inspect = require("inspect")
 local types = require("luaplot.types")
 local Plot = require("luaplot.plot")

@@ -1,3 +1,4 @@
+-- luarocks install ansicolors 1.0.2-3
 local colors = require("ansicolors")
 local types = require("luaplot.types")
 local iterators = require("luaplot.iterators")
