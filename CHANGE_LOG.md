@@ -1,5 +1,18 @@
 # Change Log
 
+## [v1.3](https://github.com/thewizardplusplus/luaplot/tree/v1.3) (2021-03-08)
+
+- global operations:
+  - selecting a value by a distance between two 2D plots/oscillograms in the specific index:
+    - selecting by the specified sequential distance ranges;
+- refactoring:
+  - using the [cpml](https://github.com/excessive/cpml) library:
+    - using the `cpml.utils.clamp()` function;
+    - using the `cpml.utils.lerp()` function;
+- examples:
+  - colorizing the plots in the examples;
+  - specifying the versions of the example dependencies.
+
 ## [v1.2.1](https://github.com/thewizardplusplus/luaplot/tree/v1.2.1) (2021-02-13)
 
 - describing for releases:
