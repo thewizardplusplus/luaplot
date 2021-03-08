@@ -55,6 +55,59 @@ The library that implements a model of a 2D plot with support for displaying fun
 
 ## Installation
 
+### 1. Install the [cpml](https://github.com/excessive/cpml) library
+
+Clone its repository:
+
+```
+$ git clone https://github.com/excessive/cpml.git
+$ cd cpml
+```
+
+Reset to the required version:
+
+```
+git reset --hard v1.0.0
+```
+
+Apply the patch:
+
+```
+git apply << EOF
+diff --git a/cpml-scm-1.rockspec b/cpml-1.0.0-1.rockspec
+similarity index 95%
+rename from cpml-scm-1.rockspec
+rename to cpml-1.0.0-1.rockspec
+index 0ad4055..0b0f414 100644
+--- a/cpml-scm-1.rockspec
++++ b/cpml-1.0.0-1.rockspec
+@@ -1,5 +1,5 @@
+ package = "cpml"
+-version = "scm-1"
++version = "1.0.0-1"
+ source = {
+    url = "git://github.com/excessive/cpml.git"
+ }
+@@ -10,7 +10,7 @@ description = {
+    license = "MIT"
+ }
+ dependencies = {
+-   "lua ~> 5.1"
++   "lua >= 5.1, < 5.4",
+ }
+ build = {
+    type = "builtin",
+EOF
+```
+
+Install the library with the [LuaRocks](https://luarocks.org/) tool:
+
+```
+$ luarocks make
+```
+
+### 2. Install this library
+
 Clone this repository:
 
 ```
