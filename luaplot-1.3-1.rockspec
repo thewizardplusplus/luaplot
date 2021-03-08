@@ -1,6 +1,6 @@
 rockspec_format = "3.0"
 package = "luaplot"
-version = "1.2.1-1"
+version = "1.3-1"
 description = {
   license = "MIT",
   maintainer = "thewizardplusplus <thewizardplusplus@yandex.ru>",
@@ -8,7 +8,7 @@ description = {
 }
 source = {
   url = "git+https://github.com/thewizardplusplus/luaplot.git",
-  tag = "v1.2.1",
+  tag = "v1.3",
 }
 dependencies = {
   "lua >= 5.2, < 5.4",
@@ -37,6 +37,8 @@ build = {
     ["plotiteratorfactory_test"] = "plotiteratorfactory_test.lua",
     ["oscillogram"] = "oscillogram.lua",
     ["oscillogram_test"] = "oscillogram_test.lua",
+    ["distancelimit"] = "distancelimit.lua",
+    ["distancelimit_test"] = "distancelimit_test.lua",
   },
   copy_directories = {
     "doc",
