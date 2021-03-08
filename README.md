@@ -51,7 +51,9 @@ The library that implements a model of a 2D plot with support for displaying fun
     - generating a 2D plot/oscillogram iterator for a specific 2D plot/oscillogram;
 - global operations:
   - calculating a difference (a distance) between two 2D plots/oscillograms in the same index:
-    - returning a difference (a distance) by modulo (optionally).
+    - returning a difference (a distance) by modulo (optionally);
+  - selecting a value by a distance between two 2D plots/oscillograms in the specific index:
+    - selecting by the specified sequential distance ranges.
 
 ## Installation
 
