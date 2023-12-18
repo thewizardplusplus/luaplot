@@ -11,7 +11,7 @@ source = {
   tag = "v1.3",
 }
 dependencies = {
-  "lua >= 5.2, < 5.4",
+  "lua >= 5.1",
   "middleclass >= 4.1.1, < 5.0",
 }
 test_dependencies = {
