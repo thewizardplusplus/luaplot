@@ -1,5 +1,7 @@
 # luaplot
 
+[![test](https://github.com/thewizardplusplus/luaplot/actions/workflows/test.yaml/badge.svg)](https://github.com/thewizardplusplus/luaplot/actions/workflows/test.yaml)
+
 The library that implements a model of a 2D plot with support for displaying functions of time (as in an oscilloscope).
 
 ## Features
