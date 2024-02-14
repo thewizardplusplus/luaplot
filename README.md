@@ -4,8 +4,11 @@
 [![doc:link](https://img.shields.io/badge/doc%3Alink-link-blue?logo=github)](https://thewizardplusplus.github.io/luaplot/)
 [![lint](https://github.com/thewizardplusplus/luaplot/actions/workflows/lint.yaml/badge.svg)](https://github.com/thewizardplusplus/luaplot/actions/workflows/lint.yaml)
 [![test](https://github.com/thewizardplusplus/luaplot/actions/workflows/test.yaml/badge.svg)](https://github.com/thewizardplusplus/luaplot/actions/workflows/test.yaml)
+[![luarocks](https://img.shields.io/badge/luarocks-link-blue?logo=lua)](https://luarocks.org/modules/thewizardplusplus/luaplot)
 
 The library that implements a model of a 2D plot with support for displaying functions of time (as in an oscilloscope).
+
+_**Disclaimer:** this library was written directly on an Android smartphone with the [QLua](https://play.google.com/store/apps/details?id=com.quseit.qlua5pro2) IDE._
 
 ## Features
 
@@ -62,17 +65,8 @@ The library that implements a model of a 2D plot with support for displaying fun
 
 ## Installation
 
-Clone this repository:
-
 ```
-$ git clone https://github.com/thewizardplusplus/luaplot.git
-$ cd luaplot
-```
-
-Install the library with the [LuaRocks](https://luarocks.org/) tool:
-
-```
-$ luarocks make
+$ luarocks install luaplot
 ```
 
 ## Examples
