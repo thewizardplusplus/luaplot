@@ -15,7 +15,7 @@ dependencies = {
   "middleclass >= 4.1.1, < 5.0",
 }
 test_dependencies = {
-  "luaunit >= 3.3, < 4.0",
+  "luaunit >= 3.4, < 4.0",
 }
 build = {
   type = "builtin",

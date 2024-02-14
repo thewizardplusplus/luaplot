@@ -88,10 +88,22 @@ function TestOscillogram.test_update_random()
   end
 
   local first_point = plot:update(0.2)
+  local last_point
+  if _VERSION == "Lua 5.4" then
+    last_point = 0.626235
+  elseif _VERSION == "Lua 5.3" or _VERSION == "Lua 5.2" then
+    last_point = 0.457753
+  elseif _VERSION == "Lua 5.1" then
+    if type(jit) == "table" then -- check for LuaJIT
+      last_point = 0.429524
+    else
+      last_point = 0.636075
+    end
+  end
 
   luaunit.assert_is_table(plot._points)
   luaunit.assert_equals(#plot._points, 5)
-  luaunit.assert_almost_equals(plot._points[5], 0.457753, 1e-6)
+  luaunit.assert_almost_equals(plot._points[5], last_point, 1e-6)
 
   luaunit.assert_is_number(first_point)
   luaunit.assert_equals(first_point, 0.1)

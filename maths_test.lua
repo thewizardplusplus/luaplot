@@ -69,18 +69,63 @@ function TestMaths.test_random_in_range()
     table.insert(results, result)
   end
 
-  local wanted_results = {
-    30.493275606073,
-    37.878885244485,
-    38.170360628981,
-    40.321299792733,
-    26.753476014826,
-    29.369232355617,
-    37.596362294629,
-    28.277719502803,
-    33.525429155212,
-    32.070543981157,
-  }
+  local wanted_results
+  if _VERSION == "Lua 5.4" then
+    wanted_results = {
+      38.496168,
+      41.744973,
+      24.507284,
+      32.474321,
+      34.244394,
+      38.845409,
+      25.936408,
+      28.019722,
+      27.905971,
+      37.831421,
+    }
+  elseif _VERSION == "Lua 5.3" or _VERSION == "Lua 5.2" then
+    wanted_results = {
+      30.493276,
+      37.878885,
+      38.170361,
+      40.321300,
+      26.753476,
+      29.369232,
+      37.596362,
+      28.277720,
+      33.525429,
+      32.070544,
+    }
+  elseif _VERSION == "Lua 5.1" then
+    if type(jit) == "table" then -- check for LuaJIT
+      wanted_results = {
+        29.152401,
+        23.258655,
+        40.341720,
+        28.675371,
+        25.056512,
+        25.001620,
+        27.543950,
+        38.933066,
+        41.363617,
+        29.867614,
+      }
+    else
+      wanted_results = {
+        38.963567,
+        30.493276,
+        37.878885,
+        38.170361,
+        40.321300,
+        26.753476,
+        29.369232,
+        37.596362,
+        28.277720,
+        33.525429,
+      }
+    end
+  end
+
   luaunit.assert_equals(#results, #wanted_results)
   for index, result in ipairs(results) do
     luaunit.assert_almost_equals(result, wanted_results[index], 1e-6)
