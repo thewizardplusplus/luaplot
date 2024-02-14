@@ -1,0 +1,29 @@
+name: doc:build
+on: [push]
+jobs:
+  doc:
+    runs-on: ubuntu-22.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      # https://github.com/lunarmodules/ldoc/issues/162
+      - name: markdown-nested-list-fix
+        run: sed --regexp-extended --in-place "s/^( *)-/    \1-/" *.md
+      - uses: leafo/gh-actions-lua@v10
+        with:
+          luaVersion: "5.4"
+      - uses: leafo/gh-actions-luarocks@v4
+      - name: build
+        run: |
+          luarocks install ldoc
+          ldoc .
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: doc/
+      - id: deploy
+        uses: actions/deploy-pages@v4
