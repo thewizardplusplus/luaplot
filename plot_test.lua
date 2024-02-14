@@ -137,6 +137,12 @@ function TestPlot.test_index_after_end_fractional_decrease()
 end
 
 function TestPlot.test_ipairs_function()
+  if _VERSION == "Lua 5.1" then
+    luaunit.skip(
+      "Lua 5.1 doesn't support for customizing the `ipairs()` function"
+    )
+  end
+
   local plot = Plot:new(0, 0.5)
   for i = 1, 5 do
     plot:push(i / 10)
@@ -157,6 +163,12 @@ function TestPlot.test_ipairs_function()
 end
 
 function TestPlot.test_ipairs_function_empty()
+  if _VERSION == "Lua 5.1" then
+    luaunit.skip(
+      "Lua 5.1 doesn't support for customizing the `ipairs()` function"
+    )
+  end
+
   local plot = Plot:new(0, 0.5)
 
   local points = {}
@@ -268,9 +280,22 @@ function TestPlot.test_push_with_random_factor()
   local plot = Plot:new(5, 0.5)
   plot:push_with_random_factor(0.2)
 
+  local last_point
+  if _VERSION == "Lua 5.4" then
+    last_point = 0.626235
+  elseif _VERSION == "Lua 5.3" or _VERSION == "Lua 5.2" then
+    last_point = 0.457753
+  elseif _VERSION == "Lua 5.1" then
+    if type(jit) == "table" then -- check for LuaJIT
+      last_point = 0.429524
+    else
+      last_point = 0.636075
+    end
+  end
+
   luaunit.assert_is_table(plot._points)
   luaunit.assert_equals(#plot._points, 6)
-  luaunit.assert_almost_equals(plot._points[6], 0.457753, 1e-6)
+  luaunit.assert_almost_equals(plot._points[6], last_point, 1e-6)
 end
 
 function TestPlot.test_shift()

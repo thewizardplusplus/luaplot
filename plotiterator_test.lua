@@ -102,6 +102,12 @@ function TestPlotIterator.test_index_after_end()
 end
 
 function TestPlotIterator.test_ipairs_function()
+  if _VERSION == "Lua 5.1" then
+    luaunit.skip(
+      "Lua 5.1 doesn't support for customizing the `ipairs()` function"
+    )
+  end
+
   local function transformer(index, point)
     assert(types.is_number_with_limits(index, 1))
     assert(types.is_number_with_limits(point))
@@ -137,6 +143,12 @@ function TestPlotIterator.test_ipairs_function()
 end
 
 function TestPlotIterator.test_ipairs_function_empty()
+  if _VERSION == "Lua 5.1" then
+    luaunit.skip(
+      "Lua 5.1 doesn't support for customizing the `ipairs()` function"
+    )
+  end
+
   local function transformer()
     assert(false, "it should not be called")
   end
