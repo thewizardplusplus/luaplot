@@ -1,0 +1,15 @@
+name: lint
+on: [push]
+jobs:
+  lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leafo/gh-actions-lua@v10
+        with:
+          luaVersion: "5.4"
+      - uses: leafo/gh-actions-luarocks@v4
+      - name: lint
+        run: |
+          luarocks install luacheck
+          luacheck .
