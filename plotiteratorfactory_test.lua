@@ -1,5 +1,5 @@
 local luaunit = require("luaunit")
-local types = require("luaplot.types")
+local checks = require("luatypechecks.checks")
 local Plot = require("luaplot.plot")
 local PlotIterator = require("luaplot.plotiterator")
 local PlotIteratorFactory = require("luaplot.plotiteratorfactory")
@@ -15,7 +15,7 @@ function TestPlotIteratorFactory.test_new()
   local factory = PlotIteratorFactory:new(transformer)
 
   luaunit.assert_is_table(factory)
-  luaunit.assert_true(types.is_instance(factory, PlotIteratorFactory))
+  luaunit.assert_true(checks.is_instance(factory, PlotIteratorFactory))
 
   luaunit.assert_is_function(factory._transformer)
   luaunit.assert_equals(factory._transformer, transformer)
@@ -31,10 +31,10 @@ function TestPlotIteratorFactory.test_with()
   local iterator = factory:with(plot)
 
   luaunit.assert_is_table(iterator)
-  luaunit.assert_true(types.is_instance(iterator, PlotIterator))
+  luaunit.assert_true(checks.is_instance(iterator, PlotIterator))
 
   luaunit.assert_is_table(iterator._plot)
-  luaunit.assert_true(types.is_instance(iterator._plot, Plot))
+  luaunit.assert_true(checks.is_instance(iterator._plot, Plot))
   luaunit.assert_equals(iterator._plot, plot)
 
   luaunit.assert_is_function(iterator._transformer)
