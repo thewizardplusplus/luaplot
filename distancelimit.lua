@@ -2,7 +2,7 @@
 -- @classmod DistanceLimit
 
 local middleclass = require("middleclass")
-local types = require("luaplot.types")
+local assertions = require("luatypechecks.assertions")
 
 local DistanceLimit = middleclass("Point")
 
@@ -17,7 +17,7 @@ local DistanceLimit = middleclass("Point")
 -- @tparam any suitable_value
 -- @treturn DistanceLimit
 function DistanceLimit:initialize(maximal_distance, suitable_value)
-  assert(types.is_number_with_limits(maximal_distance))
+  assertions.is_number(maximal_distance)
 
   self.maximal_distance = maximal_distance
   self.suitable_value = suitable_value
