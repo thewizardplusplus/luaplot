@@ -1,5 +1,6 @@
 local luaunit = require("luaunit")
-local types = require("luaplot.types")
+local assertions = require("luatypechecks.assertions")
+local checks = require("luatypechecks.checks")
 local Plot = require("luaplot.plot")
 local PlotIterator = require("luaplot.plotiterator")
 
@@ -15,10 +16,10 @@ function TestPlotIterator.test_new()
   local iterator = PlotIterator:new(plot, transformer)
 
   luaunit.assert_is_table(iterator)
-  luaunit.assert_true(types.is_instance(iterator, PlotIterator))
+  luaunit.assert_true(checks.is_instance(iterator, PlotIterator))
 
   luaunit.assert_is_table(iterator._plot)
-  luaunit.assert_true(types.is_instance(iterator._plot, Plot))
+  luaunit.assert_true(checks.is_instance(iterator._plot, Plot))
   luaunit.assert_equals(iterator._plot, plot)
 
   luaunit.assert_is_function(iterator._transformer)
@@ -27,8 +28,8 @@ end
 
 function TestPlotIterator.test_index_middle()
   local function transformer(index, point)
-    assert(types.is_number_with_limits(index, 1))
-    assert(types.is_number_with_limits(point))
+    assertions.is_number(index)
+    assertions.is_number(point)
 
     return point * index
   end
@@ -47,8 +48,8 @@ end
 
 function TestPlotIterator.test_index_start()
   local function transformer(index, point)
-    assert(types.is_number_with_limits(index, 1))
-    assert(types.is_number_with_limits(point))
+    assertions.is_number(index)
+    assertions.is_number(point)
 
     return point * index
   end
@@ -67,8 +68,8 @@ end
 
 function TestPlotIterator.test_index_end()
   local function transformer(index, point)
-    assert(types.is_number_with_limits(index, 1))
-    assert(types.is_number_with_limits(point))
+    assertions.is_number(index)
+    assertions.is_number(point)
 
     return point * index
   end
@@ -109,8 +110,8 @@ function TestPlotIterator.test_ipairs_function()
   end
 
   local function transformer(index, point)
-    assert(types.is_number_with_limits(index, 1))
-    assert(types.is_number_with_limits(point))
+    assertions.is_number(index)
+    assertions.is_number(point)
 
     return point * index
   end
@@ -166,8 +167,8 @@ end
 
 function TestPlotIterator.test_ipairs_metamethod()
   local function transformer(index, point)
-    assert(types.is_number_with_limits(index, 1))
-    assert(types.is_number_with_limits(point))
+    assertions.is_number(index)
+    assertions.is_number(point)
 
     return point * index
   end
