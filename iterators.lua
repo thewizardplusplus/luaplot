@@ -1,7 +1,8 @@
 ---
 -- @module iterators
 
-local types = require("luaplot.types")
+local assertions = require("luatypechecks.assertions")
+local checks = require("luatypechecks.checks")
 local DistanceLimit = require("luaplot.distancelimit")
 
 local iterators = {}
@@ -15,8 +16,11 @@ local iterators = {}
 -- @treturn[1] any next item
 -- @treturn[2] nil when the next index out of range
 function iterators.inext(items, index)
-  assert(type(items) == "table")
-  assert(types.is_number_with_limits(index, 0))
+  assertions.is_true(
+    checks.is_sequence(items)
+    or checks.has_metamethods(items, {"__index"})
+  )
+  assertions.is_number(index)
 
   local next_index = index + 1
   local next_item = items[next_index]
@@ -34,10 +38,10 @@ end
 -- @tparam[opt=false] bool modulo
 -- @treturn number
 function iterators.difference(indexable_one, indexable_two, index, modulo)
-  assert(types.is_indexable(indexable_one))
-  assert(types.is_indexable(indexable_two))
-  assert(types.is_number_with_limits(index, 1))
-  assert(modulo == nil or type(modulo) == "boolean")
+  assertions.has_metamethods(indexable_one, {"__index"})
+  assertions.has_metamethods(indexable_two, {"__index"})
+  assertions.is_number(index)
+  assertions.is_boolean_or_nil(modulo)
 
   local item_one = indexable_one[index]
   local item_two = indexable_two[index]
@@ -68,18 +72,16 @@ function iterators.select_by_distance(
     modulo = nil
   end
 
-  assert(types.is_indexable(indexable_one))
-  assert(types.is_indexable(indexable_two))
-  assert(types.is_number_with_limits(index, 1))
-  assert(modulo == nil or modulo == limits or type(modulo) == "boolean")
-  assert(type(limits) == "table")
+  assertions.has_metamethods(indexable_one, {"__index"})
+  assertions.has_metamethods(indexable_two, {"__index"})
+  assertions.is_number(index)
+  assertions.is_boolean_or_nil(modulo)
+  assertions.is_sequence(limits, checks.make_instance_checker(DistanceLimit))
 
   local suitable_value
   local distance =
     iterators.difference(indexable_one, indexable_two, index, modulo)
   for _, limit in ipairs(limits) do
-    assert(types.is_instance(limit, DistanceLimit))
-
     if distance <= limit.maximal_distance then
       suitable_value = limit.suitable_value
       break
