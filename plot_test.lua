@@ -1,5 +1,5 @@
 local luaunit = require("luaunit")
-local types = require("luaplot.types")
+local checks = require("luatypechecks.checks")
 local Plot = require("luaplot.plot")
 
 -- luacheck: globals TestPlot
@@ -9,7 +9,7 @@ function TestPlot.test_new_full()
   local plot = Plot:new(5, 32, 23, 42)
 
   luaunit.assert_is_table(plot)
-  luaunit.assert_true(types.is_instance(plot, Plot))
+  luaunit.assert_true(checks.is_instance(plot, Plot))
 
   luaunit.assert_is_table(plot._points)
   luaunit.assert_equals(plot._points, {32, 32, 32, 32, 32})
@@ -28,7 +28,7 @@ function TestPlot.test_new_partial()
   local plot = Plot:new(5)
 
   luaunit.assert_is_table(plot)
-  luaunit.assert_true(types.is_instance(plot, Plot))
+  luaunit.assert_true(checks.is_instance(plot, Plot))
 
   luaunit.assert_is_table(plot._points)
   luaunit.assert_equals(plot._points, {0, 0, 0, 0, 0})
@@ -286,7 +286,7 @@ function TestPlot.test_push_with_random_factor()
   elseif _VERSION == "Lua 5.3" or _VERSION == "Lua 5.2" then
     last_point = 0.457753
   elseif _VERSION == "Lua 5.1" then
-    if type(jit) == "table" then -- check for LuaJIT
+    if checks.is_table(jit) then -- check for LuaJIT
       last_point = 0.429524
     else
       last_point = 0.636075
