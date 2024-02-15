@@ -2,7 +2,7 @@
 -- @classmod PlotIterator
 
 local middleclass = require("middleclass")
-local types = require("luaplot.types")
+local assertions = require("luatypechecks.assertions")
 local Iterable = require("luaplot.iterable")
 local Plot = require("luaplot.plot")
 
@@ -20,8 +20,8 @@ PlotIterator:include(Iterable)
 -- @tparam func transformer func(index: number, point: number): any
 -- @treturn PlotIterator
 function PlotIterator:initialize(plot, transformer)
-  assert(types.is_instance(plot, Plot))
-  assert(types.is_callable(transformer))
+  assertions.is_instance(plot, Plot)
+  assertions.is_callable(transformer)
 
   self._plot = plot
   self._transformer = transformer
@@ -32,7 +32,7 @@ end
 -- @tparam number index [1, ∞)
 -- @treturn number
 function PlotIterator:__index(index)
-  assert(types.is_number_with_limits(index, 1))
+  assertions.is_number(index)
 
   local point = self._plot[index]
   if point == nil then
