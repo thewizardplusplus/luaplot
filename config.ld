@@ -6,7 +6,6 @@ full_description = [[
   For more details, see topic @{README.md}.
 ]]
 file = {
-  "types.lua",
   "maths.lua",
   "iterators.lua",
   "iterable.lua",
