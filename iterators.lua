@@ -10,20 +10,20 @@ local iterators = {}
 ---
 -- It is an analog of the 'next' function but for the 'ipairs' one.
 -- It is used for iterating in Lua 5.2.
--- @tparam {any,...} items
+-- @tparam tab indexable
 -- @tparam number index [0, ∞)
 -- @treturn[1] number next index
 -- @treturn[1] any next item
 -- @treturn[2] nil when the next index out of range
-function iterators.inext(items, index)
+function iterators.inext(indexable, index)
   assertions.is_true(
-    checks.is_sequence(items)
-      or checks.has_metamethods(items, {"__index"})
+    checks.is_sequence(indexable)
+      or checks.has_metamethods(indexable, {"__index"})
   )
   assertions.is_number(index)
 
   local next_index = index + 1
-  local next_item = items[next_index]
+  local next_item = indexable[next_index]
   if next_item == nil then
     return
   end
@@ -40,8 +40,14 @@ end
 function iterators.difference(indexable_one, indexable_two, index, modulo)
   modulo = modulo or false
 
-  assertions.has_metamethods(indexable_one, {"__index"})
-  assertions.has_metamethods(indexable_two, {"__index"})
+  assertions.is_true(
+    checks.is_sequence(indexable_one)
+      or checks.has_metamethods(indexable_one, {"__index"})
+  )
+  assertions.is_true(
+    checks.is_sequence(indexable_two)
+      or checks.has_metamethods(indexable_two, {"__index"})
+  )
   assertions.is_number(index)
   assertions.is_boolean(modulo)
 
@@ -76,8 +82,14 @@ function iterators.select_by_distance(
 
   modulo = modulo or false
 
-  assertions.has_metamethods(indexable_one, {"__index"})
-  assertions.has_metamethods(indexable_two, {"__index"})
+  assertions.is_true(
+    checks.is_sequence(indexable_one)
+      or checks.has_metamethods(indexable_one, {"__index"})
+  )
+  assertions.is_true(
+    checks.is_sequence(indexable_two)
+      or checks.has_metamethods(indexable_two, {"__index"})
+  )
   assertions.is_number(index)
   assertions.is_boolean(modulo)
   assertions.is_sequence(limits, checks.make_instance_checker(DistanceLimit))
