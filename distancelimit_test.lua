@@ -1,6 +1,6 @@
 local luaunit = require("luaunit")
 local middleclass = require("middleclass")
-local types = require("luaplot.types")
+local checks = require("luatypechecks.checks")
 local DistanceLimit = require("luaplot.distancelimit")
 
 -- luacheck: globals TestDistanceLimit
@@ -10,7 +10,7 @@ function TestDistanceLimit.test_new_number()
   local limit = DistanceLimit:new(23, 42)
 
   luaunit.assert_is_table(limit)
-  luaunit.assert_true(types.is_instance(limit, DistanceLimit))
+  luaunit.assert_true(checks.is_instance(limit, DistanceLimit))
 
   luaunit.assert_is_number(limit.maximal_distance)
   luaunit.assert_equals(limit.maximal_distance, 23)
@@ -23,7 +23,7 @@ function TestDistanceLimit.test_new_string()
   local limit = DistanceLimit:new(23, "test")
 
   luaunit.assert_is_table(limit)
-  luaunit.assert_true(types.is_instance(limit, DistanceLimit))
+  luaunit.assert_true(checks.is_instance(limit, DistanceLimit))
 
   luaunit.assert_is_number(limit.maximal_distance)
   luaunit.assert_equals(limit.maximal_distance, 23)
@@ -38,13 +38,13 @@ function TestDistanceLimit.test_new_class()
   local limit = DistanceLimit:new(23, mock)
 
   luaunit.assert_is_table(limit)
-  luaunit.assert_true(types.is_instance(limit, DistanceLimit))
+  luaunit.assert_true(checks.is_instance(limit, DistanceLimit))
 
   luaunit.assert_is_number(limit.maximal_distance)
   luaunit.assert_equals(limit.maximal_distance, 23)
 
   luaunit.assert_is_table(limit.suitable_value)
-  luaunit.assert_true(types.is_instance(limit.suitable_value, MockClass))
+  luaunit.assert_true(checks.is_instance(limit.suitable_value, MockClass))
 end
 
 function TestDistanceLimit.test_new_negative_maximum()
@@ -53,11 +53,11 @@ function TestDistanceLimit.test_new_negative_maximum()
   local limit = DistanceLimit:new(-23, mock)
 
   luaunit.assert_is_table(limit)
-  luaunit.assert_true(types.is_instance(limit, DistanceLimit))
+  luaunit.assert_true(checks.is_instance(limit, DistanceLimit))
 
   luaunit.assert_is_number(limit.maximal_distance)
   luaunit.assert_equals(limit.maximal_distance, -23)
 
   luaunit.assert_is_table(limit.suitable_value)
-  luaunit.assert_true(types.is_instance(limit.suitable_value, MockClass))
+  luaunit.assert_true(checks.is_instance(limit.suitable_value, MockClass))
 end
