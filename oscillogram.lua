@@ -2,7 +2,7 @@
 -- @classmod Oscillogram
 
 local middleclass = require("middleclass")
-local types = require("luaplot.types")
+local assertions = require("luatypechecks.assertions")
 local Plot = require("luaplot.plot")
 
 ---
@@ -28,11 +28,11 @@ function Oscillogram:initialize(kind, length, default, minimum, maximum)
   maximum = maximum or 1
   default = default or minimum
 
-  assert(kind == "custom" or kind == "linear" or kind == "random")
-  assert(types.is_number_with_limits(length, 0))
-  assert(types.is_number_with_limits(minimum))
-  assert(types.is_number_with_limits(maximum, minimum))
-  assert(types.is_number_with_limits(default, minimum, maximum))
+  assertions.is_enumeration(kind, {"custom", "linear", "random"})
+  assertions.is_number(length)
+  assertions.is_number(minimum)
+  assertions.is_number(maximum)
+  assertions.is_number(default)
 
   Plot.initialize(self, length, default, minimum, maximum)
 
@@ -72,7 +72,7 @@ end
 -- @tparam number value
 -- @treturn number
 function Oscillogram:update(value)
-  assert(types.is_number_with_limits(value))
+  assertions.is_number(value)
 
   if self._kind == "custom" then
     self:push(value)
