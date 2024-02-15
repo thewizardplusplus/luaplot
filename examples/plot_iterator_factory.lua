@@ -1,14 +1,18 @@
--- luarocks install inspect 3.1.1-0
+-- luarocks install inspect 3.1.3-0
 local inspect = require("inspect")
-local types = require("luaplot.types")
+local assertions = require("luatypechecks.assertions")
+local checks = require("luatypechecks.checks")
 local Plot = require("luaplot.plot")
 local PlotIteratorFactory = require("luaplot.plotiteratorfactory")
 
 local function print_iterable(iterable)
   if _VERSION >= "Lua 5.3" then
-    assert(types.is_indexable(iterable))
+    assertions.is_true(
+      checks.is_sequence(iterable)
+        or checks.has_metamethods(iterable, {"__index"})
+    )
   else
-    assert(types.has_metamethod(iterable, "__ipairs"))
+    assertions.has_metamethods(iterable, {"__ipairs"})
   end
 
   local points = {}
@@ -20,10 +24,10 @@ local function print_iterable(iterable)
 end
 
 local iterator = PlotIteratorFactory:new(function(index, point)
-  assert(types.is_number_with_limits(index, 1))
-  assert(types.is_number_with_limits(point))
+  assertions.is_number(index)
+  assertions.is_number(point)
 
-  return {x = index, y = point}
+  return { x = index, y = point }
 end)
 
 local plot_one = Plot:new(0)

@@ -1,11 +1,11 @@
 -- luarocks install ansicolors 1.0.2-3
 local colors = require("ansicolors")
-local types = require("luaplot.types")
+local assertions = require("luatypechecks.assertions")
 local Plot = require("luaplot.plot")
 
 local function print_plot(plot, vertical_step)
-  assert(types.is_instance(plot, Plot))
-  assert(types.is_number_with_limits(vertical_step, 0, 1))
+  assertions.is_instance(plot, Plot)
+  assertions.is_number(vertical_step)
 
   local text = ""
   for height = 1, 0, -vertical_step do
@@ -24,7 +24,7 @@ local function print_plot(plot, vertical_step)
 end
 
 local function sleep(seconds)
-  assert(types.is_number_with_limits(seconds, 0))
+  assertions.is_number(seconds)
 
   local start = os.clock()
   while os.clock() - start < seconds do end
