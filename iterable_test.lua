@@ -1,6 +1,6 @@
 local luaunit = require("luaunit")
 local middleclass = require("middleclass")
-local types = require("luaplot.types")
+local assertions = require("luatypechecks.assertions")
 local Iterable = require("luaplot.iterable")
 
 -- luacheck: globals TestIterable
@@ -10,7 +10,7 @@ function TestIterable.test_ipairs_metamethod()
   local MockClass = middleclass("MockClass")
   MockClass:include(Iterable)
   MockClass.__index = function(_, index)
-    assert(types.is_number_with_limits(index, 1))
+    assertions.is_number(index)
 
     return index <= 5 and index / 10 or nil
   end
