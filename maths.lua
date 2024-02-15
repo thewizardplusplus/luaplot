@@ -1,7 +1,7 @@
 ---
 -- @module maths
 
-local types = require("luaplot.types")
+local assertions = require("luatypechecks.assertions")
 
 local maths = {}
 
@@ -11,9 +11,9 @@ local maths = {}
 -- @tparam number maximum [minimum, ∞)
 -- @treturn number [minimum, maximum]
 function maths.clamp(value, minimum, maximum)
-  assert(types.is_number_with_limits(value))
-  assert(types.is_number_with_limits(minimum))
-  assert(types.is_number_with_limits(maximum, minimum))
+  assertions.is_number(value)
+  assertions.is_number(minimum)
+  assertions.is_number(maximum)
 
   if value < minimum then
     value = minimum
@@ -30,9 +30,9 @@ end
 -- @tparam number progress [0, 1]
 -- @treturn number [minimum, maximum]
 function maths.lerp(minimum, maximum, progress)
-  assert(types.is_number_with_limits(minimum))
-  assert(types.is_number_with_limits(maximum, minimum))
-  assert(types.is_number_with_limits(progress, 0, 1))
+  assertions.is_number(minimum)
+  assertions.is_number(maximum)
+  assertions.is_number(progress)
 
   return (maximum - minimum) * progress + minimum
 end
@@ -42,8 +42,8 @@ end
 -- @tparam number maximum [minimum, ∞)
 -- @treturn number [minimum, maximum)
 function maths.random_in_range(minimum, maximum)
-  assert(types.is_number_with_limits(minimum))
-  assert(types.is_number_with_limits(maximum, minimum))
+  assertions.is_number(minimum)
+  assertions.is_number(maximum)
 
   return math.random() * (maximum - minimum) + minimum
 end
