@@ -6,7 +6,6 @@ for _, module in ipairs({
   "plotiteratorfactory",
   "oscillogram",
   "distancelimit",
-  "types",
   "maths",
   "iterators",
   "iterable",
