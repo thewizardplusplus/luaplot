@@ -1,5 +1,6 @@
 local luaunit = require("luaunit")
 local maths = require("luaplot.maths")
+local checks = require("luatypechecks.checks")
 
 -- luacheck: globals TestMaths
 TestMaths = {}
@@ -97,7 +98,7 @@ function TestMaths.test_random_in_range()
       32.070544,
     }
   elseif _VERSION == "Lua 5.1" then
-    if type(jit) == "table" then -- check for LuaJIT
+    if checks.is_table(jit) then -- check for LuaJIT
       wanted_results = {
         29.152401,
         23.258655,
