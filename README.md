@@ -4,6 +4,8 @@
 
 The library that implements a model of a 2D plot with support for displaying functions of time (as in an oscilloscope).
 
+_**Disclaimer:** this library was written directly on an Android smartphone with the [QLua](https://play.google.com/store/apps/details?id=com.quseit.qlua5pro2) IDE._
+
 ## Features
 
 - models:
