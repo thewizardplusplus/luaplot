@@ -1,3 +1,5 @@
+-- luacheck: no max comment line length
+
 ---
 -- @classmod Oscillogram
 
@@ -51,6 +53,24 @@ end
 -- @treturn iterators.inext iterator function
 -- @treturn Oscillogram self
 -- @treturn number always zero
+
+---
+-- @treturn tab table with instance fields
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
+function Oscillogram:__data()
+  return {
+    kind = self._kind,
+    points = self._points,
+    default = self._default,
+    minimum = self._minimum,
+    maximum = self._maximum,
+  }
+end
+
+---
+-- @function __tostring
+-- @treturn string stringified table with instance fields
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
 
 ---
 -- @function push

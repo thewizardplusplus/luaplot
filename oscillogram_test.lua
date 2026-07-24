@@ -49,6 +49,21 @@ function TestOscillogram.test_new_partial()
   luaunit.assert_equals(plot._maximum, 1)
 end
 
+function TestOscillogram.test_tostring()
+  local plot = Oscillogram:new("random", 5, 32, 23, 42)
+  local text = tostring(plot)
+
+  luaunit.assert_is_string(text)
+  luaunit.assert_equals(text, "{" ..
+    "__name = \"Oscillogram\"," ..
+    "default = 32," ..
+    "kind = \"random\"," ..
+    "maximum = 42," ..
+    "minimum = 23," ..
+    "points = { 32, 32, 32, 32, 32 }" ..
+  "}")
+end
+
 function TestOscillogram.test_update_custom()
   local plot = Oscillogram:new("custom", 0, 0.5)
   for i = 1, 5 do
