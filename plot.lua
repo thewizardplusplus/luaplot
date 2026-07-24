@@ -1,8 +1,12 @@
+-- luacheck: no max comment line length
+
 ---
 -- @classmod Plot
 
 local middleclass = require("middleclass")
 local assertions = require("luatypechecks.assertions")
+local Nameable = require("luaserialization.nameable")
+local Stringifiable = require("luaserialization.stringifiable")
 local maths = require("luaplot.maths")
 local Iterable = require("luaplot.iterable")
 
@@ -15,6 +19,8 @@ local Iterable = require("luaplot.iterable")
 
 local Plot = middleclass("Plot")
 Plot:include(Iterable)
+Plot:include(Nameable)
+Plot:include(Stringifiable)
 
 ---
 -- @function new
@@ -77,6 +83,23 @@ end
 -- @treturn iterators.inext iterator function
 -- @treturn Plot self
 -- @treturn number always zero
+
+---
+-- @treturn tab table with instance fields
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
+function Plot:__data()
+  return {
+    points = self._points,
+    default = self._default,
+    minimum = self._minimum,
+    maximum = self._maximum,
+  }
+end
+
+---
+-- @function __tostring
+-- @treturn string stringified table with instance fields
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
 
 ---
 -- @tparam number point

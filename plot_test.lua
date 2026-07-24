@@ -210,6 +210,20 @@ function TestPlot.test_ipairs_metamethod_empty()
   luaunit.assert_equals(points, {})
 end
 
+function TestPlot.test_tostring()
+  local plot = Plot:new(5, 32, 23, 42)
+  local text = tostring(plot)
+
+  luaunit.assert_is_string(text)
+  luaunit.assert_equals(text, "{" ..
+    "__name = \"Plot\"," ..
+    "default = 32," ..
+    "maximum = 42," ..
+    "minimum = 23," ..
+    "points = { 32, 32, 32, 32, 32 }" ..
+  "}")
+end
+
 function TestPlot.test_push_in_range()
   local plot = Plot:new(5, 0.5)
   plot:push(0.2)
