@@ -15,6 +15,7 @@ dependencies = {
   "lua >= 5.1",
   "middleclass >= 4.1.1, < 5.0",
   "luatypechecks >= 1.3.4, < 2.0",
+  "luaserialization >= 1.3.0, < 2.0",
 }
 test_dependencies = {
   "luaunit >= 3.4, < 4.0",
