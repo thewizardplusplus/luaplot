@@ -10,7 +10,7 @@ local checks = require("luatypechecks.checks")
 local Nameable = require("luaserialization.nameable")
 local Stringifiable = require("luaserialization.stringifiable")
 
-local DistanceLimit = middleclass("Point")
+local DistanceLimit = middleclass("DistanceLimit")
 DistanceLimit:include(Nameable)
 DistanceLimit:include(Stringifiable)
 

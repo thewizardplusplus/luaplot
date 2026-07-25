@@ -88,7 +88,7 @@ function TestDistanceLimit.test_tostring_number()
 
   luaunit.assert_is_string(text)
   luaunit.assert_equals(text, "{" ..
-    "__name = \"Point\"," ..
+    "__name = \"DistanceLimit\"," ..
     "maximal_distance = 23," ..
     "suitable_value = 42" ..
   "}")
@@ -100,7 +100,7 @@ function TestDistanceLimit.test_tostring_string()
 
   luaunit.assert_is_string(text)
   luaunit.assert_equals(text, "{" ..
-    "__name = \"Point\"," ..
+    "__name = \"DistanceLimit\"," ..
     "maximal_distance = 23," ..
     "suitable_value = \"test\"" ..
   "}")
@@ -115,7 +115,7 @@ function TestDistanceLimit.test_tostring_class()
   luaunit.assert_str_contains(
     text,
     "{" ..
-      "__name = \"Point\"," ..
+      "__name = \"DistanceLimit\"," ..
       "maximal_distance = 23," ..
       "suitable_value = '%b{}'" ..
     "}",
@@ -130,7 +130,7 @@ function TestDistanceLimit.test_tostring_serializable_class()
 
   luaunit.assert_is_string(text)
   luaunit.assert_equals(text, "{" ..
-    "__name = \"Point\"," ..
+    "__name = \"DistanceLimit\"," ..
     "maximal_distance = 23," ..
     "suitable_value = {" ..
       "__name = \"SerializableMockClass\"," ..
