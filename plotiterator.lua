@@ -9,7 +9,7 @@ local Plot = require("luaplot.plot")
 ---
 -- @table instance
 -- @tfield Plot _plot
--- @tfield func _transformer func(index: number, point: number): any
+-- @tfield func _transformer func(point: Vector2D): any
 
 local PlotIterator = middleclass("PlotIterator")
 PlotIterator:include(Iterable)
@@ -17,7 +17,7 @@ PlotIterator:include(Iterable)
 ---
 -- @function new
 -- @tparam Plot plot
--- @tparam func transformer func(index: number, point: number): any
+-- @tparam func transformer func(point: Vector2D): any
 -- @treturn PlotIterator
 function PlotIterator:initialize(plot, transformer)
   assertions.is_instance(plot, Plot)
@@ -28,9 +28,10 @@ function PlotIterator:initialize(plot, transformer)
 end
 
 ---
--- It is used for iterating over plot points in Lua 5.3+.
+-- It supports direct access to transformed plot points
+--   and is used for iterating over them in Lua 5.3+.
 -- @tparam number index [1, ∞)
--- @treturn number
+-- @treturn any transformed point, or nil when the index is out of range
 function PlotIterator:__index(index)
   assertions.is_number(index)
 
@@ -39,7 +40,7 @@ function PlotIterator:__index(index)
     return
   end
 
-  return self._transformer(index, point)
+  return self._transformer(point)
 end
 
 ---

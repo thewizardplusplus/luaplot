@@ -1,6 +1,8 @@
 local luaunit = require("luaunit")
 local assertions = require("luatypechecks.assertions")
 local checks = require("luatypechecks.checks")
+local Vector2D = require("luamath.vector2d")
+local Range = require("luamath.models.range")
 local Plot = require("luaplot.plot")
 local PlotIterator = require("luaplot.plotiterator")
 
@@ -12,7 +14,7 @@ function TestPlotIterator.test_new()
     assert(false, "it should not be called")
   end
 
-  local plot = Plot:new(5, 32, 23, 42)
+  local plot = Plot:new(5, 32, Range:new(23, 42))
   local iterator = PlotIterator:new(plot, transformer)
 
   luaunit.assert_is_table(iterator)
@@ -27,11 +29,10 @@ function TestPlotIterator.test_new()
 end
 
 function TestPlotIterator.test_index_middle()
-  local function transformer(index, point)
-    assertions.is_number(index)
-    assertions.is_number(point)
+  local function transformer(point)
+    assertions.is_instance(point, Vector2D)
 
-    return point * index
+    return point.x * point.y
   end
 
   local plot = Plot:new(0, 0.5)
@@ -47,11 +48,10 @@ function TestPlotIterator.test_index_middle()
 end
 
 function TestPlotIterator.test_index_start()
-  local function transformer(index, point)
-    assertions.is_number(index)
-    assertions.is_number(point)
+  local function transformer(point)
+    assertions.is_instance(point, Vector2D)
 
-    return point * index
+    return point.x * point.y
   end
 
   local plot = Plot:new(0, 0.5)
@@ -67,11 +67,10 @@ function TestPlotIterator.test_index_start()
 end
 
 function TestPlotIterator.test_index_end()
-  local function transformer(index, point)
-    assertions.is_number(index)
-    assertions.is_number(point)
+  local function transformer(point)
+    assertions.is_instance(point, Vector2D)
 
-    return point * index
+    return point.x * point.y
   end
 
   local plot = Plot:new(0, 0.5)
@@ -109,11 +108,10 @@ function TestPlotIterator.test_ipairs_function()
     luaunit.skip(message)
   end
 
-  local function transformer(index, point)
-    assertions.is_number(index)
-    assertions.is_number(point)
+  local function transformer(point)
+    assertions.is_instance(point, Vector2D)
 
-    return point * index
+    return point.x * point.y
   end
 
   local plot = Plot:new(0, 0.5)
@@ -166,11 +164,10 @@ function TestPlotIterator.test_ipairs_function_empty()
 end
 
 function TestPlotIterator.test_ipairs_metamethod()
-  local function transformer(index, point)
-    assertions.is_number(index)
-    assertions.is_number(point)
+  local function transformer(point)
+    assertions.is_instance(point, Vector2D)
 
-    return point * index
+    return point.x * point.y
   end
 
   local plot = Plot:new(0, 0.5)
