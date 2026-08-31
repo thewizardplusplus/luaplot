@@ -1,5 +1,6 @@
 local luaunit = require("luaunit")
 local checks = require("luatypechecks.checks")
+local Range = require("luamath.models.range")
 local Plot = require("luaplot.plot")
 local PlotIterator = require("luaplot.plotiterator")
 local PlotIteratorFactory = require("luaplot.plotiteratorfactory")
@@ -26,7 +27,7 @@ function TestPlotIteratorFactory.test_with()
     assert(false, "it should not be called")
   end
 
-  local plot = Plot:new(5, 32, 23, 42)
+  local plot = Plot:new(5, 32, Range:new(23, 42))
   local factory = PlotIteratorFactory:new(transformer)
   local iterator = factory:with(plot)
 

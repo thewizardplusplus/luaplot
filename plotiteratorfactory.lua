@@ -8,13 +8,13 @@ local PlotIterator = require("luaplot.plotiterator")
 
 ---
 -- @table instance
--- @tfield func _transformer func(index: number, point: number): any
+-- @tfield func _transformer func(point: Vector2D): any
 
 local PlotIteratorFactory = middleclass("PlotIteratorFactory")
 
 ---
 -- @function new
--- @tparam func transformer func(index: number, point: number): any
+-- @tparam func transformer func(point: Vector2D): any
 -- @treturn PlotIteratorFactory
 function PlotIteratorFactory:initialize(transformer)
   assertions.is_callable(transformer)
