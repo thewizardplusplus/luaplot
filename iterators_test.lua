@@ -1,5 +1,6 @@
 local luaunit = require("luaunit")
 local assertions = require("luatypechecks.assertions")
+local Vector2D = require("luamath.vector2d")
 local iterators = require("luaplot.iterators")
 local Plot = require("luaplot.plot")
 local DistanceLimit = require("luaplot.distancelimit")
@@ -156,6 +157,26 @@ function TestIterators.test_difference_indexables_modulo()
     local wanted_difference = wanted_differences[index]
     luaunit.assert_almost_equals(difference, wanted_difference, 1e-6)
   end
+end
+
+function TestIterators.test_difference_vector2ds()
+  local vectors_one = {Vector2D:new(1, 0.1)}
+  local vectors_two = {Vector2D:new(2, 0.2)}
+
+  local difference = iterators.difference(vectors_one, vectors_two, 1)
+
+  luaunit.assert_is_number(difference)
+  luaunit.assert_almost_equals(difference, -0.1, 1e-6)
+end
+
+function TestIterators.test_difference_vector2ds_modulo()
+  local vectors_one = {Vector2D:new(1, 0.1)}
+  local vectors_two = {Vector2D:new(2, 0.2)}
+
+  local difference = iterators.difference(vectors_one, vectors_two, 1, true)
+
+  luaunit.assert_is_number(difference)
+  luaunit.assert_almost_equals(difference, 0.1, 1e-6)
 end
 
 function TestIterators.test_select_by_distance_tables()

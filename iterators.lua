@@ -1,8 +1,11 @@
+-- luacheck: no max comment line length
+
 ---
 -- @module iterators
 
 local assertions = require("luatypechecks.assertions")
 local checks = require("luatypechecks.checks")
+local Vector2D = require("luamath.vector2d")
 local DistanceLimit = require("luaplot.distancelimit")
 
 local iterators = {}
@@ -36,7 +39,7 @@ end
 -- @tparam tab indexable_two
 -- @tparam number index [1, ∞)
 -- @tparam[opt=false] bool modulo
--- @treturn number
+-- @treturn number vertical difference for Vector2D items, otherwise item difference
 function iterators.difference(indexable_one, indexable_two, index, modulo)
   modulo = modulo or false
 
@@ -54,6 +57,9 @@ function iterators.difference(indexable_one, indexable_two, index, modulo)
   local item_one = indexable_one[index]
   local item_two = indexable_two[index]
   local difference = item_one - item_two
+  if checks.is_instance(difference, Vector2D) then
+    difference = difference.y
+  end
   if modulo then
     difference = math.abs(difference)
   end
