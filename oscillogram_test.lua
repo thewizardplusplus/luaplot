@@ -1,12 +1,14 @@
 local luaunit = require("luaunit")
 local checks = require("luatypechecks.checks")
+local Range = require("luamath.models.range")
 local Oscillogram = require("luaplot.oscillogram")
 
 -- luacheck: globals TestOscillogram
 TestOscillogram = {}
 
 function TestOscillogram.test_new_full()
-  local plot = Oscillogram:new("random", 5, 32, 23, 42)
+  local range = Range:new(23, 42)
+  local plot = Oscillogram:new("random", 5, 32, range)
 
   luaunit.assert_is_table(plot)
   luaunit.assert_true(checks.is_instance(plot, Oscillogram))
@@ -20,11 +22,9 @@ function TestOscillogram.test_new_full()
   luaunit.assert_is_number(plot._default)
   luaunit.assert_equals(plot._default, 32)
 
-  luaunit.assert_is_number(plot._minimum)
-  luaunit.assert_equals(plot._minimum, 23)
-
-  luaunit.assert_is_number(plot._maximum)
-  luaunit.assert_equals(plot._maximum, 42)
+  luaunit.assert_is_table(plot._range)
+  luaunit.assert_true(checks.is_instance(plot._range, Range))
+  luaunit.assert_equals(plot._range, range)
 end
 
 function TestOscillogram.test_new_partial()
@@ -42,15 +42,13 @@ function TestOscillogram.test_new_partial()
   luaunit.assert_is_number(plot._default)
   luaunit.assert_equals(plot._default, 0)
 
-  luaunit.assert_is_number(plot._minimum)
-  luaunit.assert_equals(plot._minimum, 0)
-
-  luaunit.assert_is_number(plot._maximum)
-  luaunit.assert_equals(plot._maximum, 1)
+  luaunit.assert_is_table(plot._range)
+  luaunit.assert_true(checks.is_instance(plot._range, Range))
+  luaunit.assert_equals(plot._range, Range:new(0, 1))
 end
 
 function TestOscillogram.test_tostring()
-  local plot = Oscillogram:new("random", 5, 32, 23, 42)
+  local plot = Oscillogram:new("random", 5, 32, Range:new(23, 42))
   local text = tostring(plot)
 
   luaunit.assert_is_string(text)
@@ -58,9 +56,12 @@ function TestOscillogram.test_tostring()
     "__name = \"Oscillogram\"," ..
     "default = 32," ..
     "kind = \"random\"," ..
-    "maximum = 42," ..
-    "minimum = 23," ..
-    "points = { 32, 32, 32, 32, 32 }" ..
+    "points = { 32, 32, 32, 32, 32 }," ..
+    "range = {" ..
+      "__name = \"Range\"," ..
+      "max = 42," ..
+      "min = 23" ..
+    "}" ..
   "}")
 end
 
