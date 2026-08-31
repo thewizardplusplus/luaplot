@@ -7,15 +7,16 @@ local middleclass = require("middleclass")
 local assertions = require("luatypechecks.assertions")
 local Nameable = require("luaserialization.nameable")
 local Stringifiable = require("luaserialization.stringifiable")
-local maths = require("luaplot.maths")
+local Vector2D = require("luamath.vector2d")
+local Range = require("luamath.models.range")
+local mathutils = require("luamath.utils")
 local Iterable = require("luaplot.iterable")
 
 ---
 -- @table instance
 -- @tfield {number,...} _points
 -- @tfield number _default
--- @tfield number _minimum
--- @tfield number _maximum
+-- @tfield Range _range
 
 local Plot = middleclass("Plot")
 Plot:include(Iterable)
@@ -25,33 +26,29 @@ Plot:include(Stringifiable)
 ---
 -- @function new
 -- @tparam number length [0, ∞)
--- @tparam[opt=minimum] number default
--- @tparam[opt=0] number minimum
--- @tparam[opt=1] number maximum [minimum, ∞)
+-- @tparam[opt=range.min] number default
+-- @tparam[opt=Range:new(0, 1)] Range range
 -- @treturn Plot
-function Plot:initialize(length, default, minimum, maximum)
-  minimum = minimum or 0
-  maximum = maximum or 1
-  default = default or minimum
+function Plot:initialize(length, default, range)
+  range = range or Range:new(0, 1)
+  default = default or range.min
 
   assertions.is_number(length)
   assertions.is_number(default)
-  assertions.is_number(minimum)
-  assertions.is_number(maximum)
+  assertions.is_instance(range, Range)
 
   self._points = {}
   for _ = 1, length do
     table.insert(self._points, default)
   end
   self._default = default
-  self._minimum = minimum
-  self._maximum = maximum
+  self._range = range
 end
 
 ---
--- It is used for iterating over plot points in Lua 5.3+.
+-- It supports direct access to plot points and is used for iterating over them in Lua 5.3+.
 -- @tparam number index [1, ∞)
--- @treturn number
+-- @treturn Vector2D|nil
 function Plot:__index(index)
   assertions.is_number(index)
 
@@ -60,7 +57,7 @@ function Plot:__index(index)
 
   local progress = index - left_point_index
   if progress == 0 then
-    return left_point
+    return left_point ~= nil and Vector2D:new(index, left_point) or nil
   end
 
   local right_point_index = math.floor(index + 1)
@@ -69,12 +66,7 @@ function Plot:__index(index)
     return nil
   end
 
-  if right_point < left_point then
-    left_point, right_point = right_point, left_point
-    progress = 1 - progress
-  end
-
-  return maths.lerp(left_point, right_point, progress)
+  return Vector2D:new(index, mathutils.lerp(left_point, right_point, progress))
 end
 
 ---
@@ -91,8 +83,7 @@ function Plot:__data()
   return {
     points = self._points,
     default = self._default,
-    minimum = self._minimum,
-    maximum = self._maximum,
+    range = self._range,
   }
 end
 
@@ -106,7 +97,7 @@ end
 function Plot:push(point)
   assertions.is_number(point)
 
-  point = maths.clamp(point, self._minimum, self._maximum)
+  point = self._range:clamp(point)
   table.insert(self._points, point)
 end
 
@@ -132,7 +123,7 @@ end
 function Plot:push_with_random_factor(factor_limit)
   assertions.is_number(factor_limit)
 
-  local factor = maths.random_in_range(-factor_limit, factor_limit)
+  local factor = mathutils.random_in_range(-factor_limit, factor_limit)
   self:push_with_factor(factor)
 end
 

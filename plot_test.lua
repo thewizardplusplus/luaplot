@@ -1,12 +1,15 @@
 local luaunit = require("luaunit")
 local checks = require("luatypechecks.checks")
+local Vector2D = require("luamath.vector2d")
+local Range = require("luamath.models.range")
 local Plot = require("luaplot.plot")
 
 -- luacheck: globals TestPlot
 TestPlot = {}
 
 function TestPlot.test_new_full()
-  local plot = Plot:new(5, 32, 23, 42)
+  local range = Range:new(23, 42)
+  local plot = Plot:new(5, 32, range)
 
   luaunit.assert_is_table(plot)
   luaunit.assert_true(checks.is_instance(plot, Plot))
@@ -17,11 +20,9 @@ function TestPlot.test_new_full()
   luaunit.assert_is_number(plot._default)
   luaunit.assert_equals(plot._default, 32)
 
-  luaunit.assert_is_number(plot._minimum)
-  luaunit.assert_equals(plot._minimum, 23)
-
-  luaunit.assert_is_number(plot._maximum)
-  luaunit.assert_equals(plot._maximum, 42)
+  luaunit.assert_is_table(plot._range)
+  luaunit.assert_true(checks.is_instance(plot._range, Range))
+  luaunit.assert_equals(plot._range, range)
 end
 
 function TestPlot.test_new_partial()
@@ -36,11 +37,9 @@ function TestPlot.test_new_partial()
   luaunit.assert_is_number(plot._default)
   luaunit.assert_equals(plot._default, 0)
 
-  luaunit.assert_is_number(plot._minimum)
-  luaunit.assert_equals(plot._minimum, 0)
-
-  luaunit.assert_is_number(plot._maximum)
-  luaunit.assert_equals(plot._maximum, 1)
+  luaunit.assert_is_table(plot._range)
+  luaunit.assert_true(checks.is_instance(plot._range, Range))
+  luaunit.assert_equals(plot._range, Range:new(0, 1))
 end
 
 function TestPlot.test_index_middle()
@@ -51,8 +50,9 @@ function TestPlot.test_index_middle()
 
   local point = plot[3]
 
-  luaunit.assert_is_number(point)
-  luaunit.assert_equals(point, 0.3)
+  luaunit.assert_is_table(point)
+  luaunit.assert_true(checks.is_instance(point, Vector2D))
+  luaunit.assert_equals(point, Vector2D:new(3, 0.3))
 end
 
 function TestPlot.test_index_middle_fractional_increase()
@@ -63,20 +63,22 @@ function TestPlot.test_index_middle_fractional_increase()
 
   local point = plot[3.2]
 
-  luaunit.assert_is_number(point)
-  luaunit.assert_equals(point, 0.32)
+  luaunit.assert_is_table(point)
+  luaunit.assert_true(checks.is_instance(point, Vector2D))
+  luaunit.assert_equals(point, Vector2D:new(3.2, 0.32))
 end
 
 function TestPlot.test_index_middle_fractional_decrease()
-  local plot = Plot:new(0, -0.5, -1, 0)
+  local plot = Plot:new(0, -0.5, Range:new(-1, 0))
   for i = 1, 5 do
     plot:push(-i / 10)
   end
 
   local point = plot[3.2]
 
-  luaunit.assert_is_number(point)
-  luaunit.assert_equals(point, -0.32)
+  luaunit.assert_is_table(point)
+  luaunit.assert_true(checks.is_instance(point, Vector2D))
+  luaunit.assert_equals(point, Vector2D:new(3.2, -0.32))
 end
 
 function TestPlot.test_index_start()
@@ -87,8 +89,9 @@ function TestPlot.test_index_start()
 
   local point = plot[1]
 
-  luaunit.assert_is_number(point)
-  luaunit.assert_equals(point, 0.1)
+  luaunit.assert_is_table(point)
+  luaunit.assert_true(checks.is_instance(point, Vector2D))
+  luaunit.assert_equals(point, Vector2D:new(1, 0.1))
 end
 
 function TestPlot.test_index_end()
@@ -99,8 +102,9 @@ function TestPlot.test_index_end()
 
   local point = plot[5]
 
-  luaunit.assert_is_number(point)
-  luaunit.assert_equals(point, 0.5)
+  luaunit.assert_is_table(point)
+  luaunit.assert_true(checks.is_instance(point, Vector2D))
+  luaunit.assert_equals(point, Vector2D:new(5, 0.5))
 end
 
 function TestPlot.test_index_after_end()
@@ -126,7 +130,7 @@ function TestPlot.test_index_after_end_fractional_increase()
 end
 
 function TestPlot.test_index_after_end_fractional_decrease()
-  local plot = Plot:new(0, -0.5, -1, 0)
+  local plot = Plot:new(0, -0.5, Range:new(-1, 0))
   for i = 1, 5 do
     plot:push(-i / 10)
   end
@@ -154,11 +158,11 @@ function TestPlot.test_ipairs_function()
   end
 
   luaunit.assert_equals(points, {
-    {index = 1, point = 0.1},
-    {index = 2, point = 0.2},
-    {index = 3, point = 0.3},
-    {index = 4, point = 0.4},
-    {index = 5, point = 0.5},
+    {index = 1, point = Vector2D:new(1, 0.1)},
+    {index = 2, point = Vector2D:new(2, 0.2)},
+    {index = 3, point = Vector2D:new(3, 0.3)},
+    {index = 4, point = Vector2D:new(4, 0.4)},
+    {index = 5, point = Vector2D:new(5, 0.5)},
   })
 end
 
@@ -191,11 +195,11 @@ function TestPlot.test_ipairs_metamethod()
   end
 
   luaunit.assert_equals(points, {
-    {index = 1, point = 0.1},
-    {index = 2, point = 0.2},
-    {index = 3, point = 0.3},
-    {index = 4, point = 0.4},
-    {index = 5, point = 0.5},
+    {index = 1, point = Vector2D:new(1, 0.1)},
+    {index = 2, point = Vector2D:new(2, 0.2)},
+    {index = 3, point = Vector2D:new(3, 0.3)},
+    {index = 4, point = Vector2D:new(4, 0.4)},
+    {index = 5, point = Vector2D:new(5, 0.5)},
   })
 end
 
@@ -211,16 +215,19 @@ function TestPlot.test_ipairs_metamethod_empty()
 end
 
 function TestPlot.test_tostring()
-  local plot = Plot:new(5, 32, 23, 42)
+  local plot = Plot:new(5, 32, Range:new(23, 42))
   local text = tostring(plot)
 
   luaunit.assert_is_string(text)
   luaunit.assert_equals(text, "{" ..
     "__name = \"Plot\"," ..
     "default = 32," ..
-    "maximum = 42," ..
-    "minimum = 23," ..
-    "points = { 32, 32, 32, 32, 32 }" ..
+    "points = { 32, 32, 32, 32, 32 }," ..
+    "range = {" ..
+      "__name = \"Range\"," ..
+      "max = 42," ..
+      "min = 23" ..
+    "}" ..
   "}")
 end
 
