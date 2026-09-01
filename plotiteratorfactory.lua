@@ -6,11 +6,11 @@ local assertions = require("luatypechecks.assertions")
 local Plot = require("luaplot.plot")
 local PlotIterator = require("luaplot.plotiterator")
 
+local PlotIteratorFactory = middleclass("PlotIteratorFactory")
+
 ---
 -- @table instance
 -- @tfield func _transformer func(point: Vector2D): any
-
-local PlotIteratorFactory = middleclass("PlotIteratorFactory")
 
 ---
 -- @function new

@@ -11,7 +11,7 @@ local DistanceLimit = require("luaplot.distancelimit")
 local iterators = {}
 
 ---
--- It is an analog of the 'next' function but for the 'ipairs' one.
+-- ⚠️. It is an analog of the 'next' function but for the 'ipairs' one.
 -- It is used for iterating in Lua 5.2.
 -- @tparam tab indexable
 -- @tparam number index [0, ∞)

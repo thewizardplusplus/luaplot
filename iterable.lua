@@ -7,7 +7,7 @@ local iterators = require("luaplot.iterators")
 local Iterable = {}
 
 ---
--- It is used for iterating over plot points in Lua 5.2.
+-- ⚠️. It is used for iterating over plot points in Lua 5.2.
 -- @treturn iterators.inext iterator function
 -- @treturn Iterable self
 -- @treturn number always zero

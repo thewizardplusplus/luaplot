@@ -12,12 +12,6 @@ local Range = require("luamath.models.range")
 local mathutils = require("luamath.utils")
 local Iterable = require("luaplot.iterable")
 
----
--- @table instance
--- @tfield {number,...} _points
--- @tfield number _default
--- @tfield Range _range
-
 local Plot = middleclass("Plot")
 Plot:include(Iterable)
 Plot:include(Nameable)
@@ -59,6 +53,12 @@ function Plot.static.from_options(options)
 end
 
 ---
+-- @table instance
+-- @tfield {number,...} _points
+-- @tfield number _default
+-- @tfield Range _range
+
+---
 -- @function new
 -- @tparam number length [0, ∞)
 -- @tparam[opt=range.min] number default
@@ -81,7 +81,7 @@ function Plot:initialize(length, default, range)
 end
 
 ---
--- It supports direct access to plot points and is used for iterating over them in Lua 5.3+.
+-- ⚠️. It supports direct access to plot points and is used for iterating over them in Lua 5.3+.
 -- @tparam number index [1, ∞)
 -- @treturn Vector2D|nil
 function Plot:__index(index)
@@ -105,7 +105,7 @@ function Plot:__index(index)
 end
 
 ---
--- It is used for iterating over plot points in Lua 5.2.
+-- ⚠️. It is used for iterating over plot points in Lua 5.2.
 -- @function __ipairs
 -- @treturn iterators.inext iterator function
 -- @treturn Plot self

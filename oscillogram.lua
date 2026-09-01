@@ -8,13 +8,6 @@ local assertions = require("luatypechecks.assertions")
 local Range = require("luamath.models.range")
 local Plot = require("luaplot.plot")
 
----
--- @table instance
--- @tfield "custom"|"linear"|"random" _kind
--- @tfield {number,...} _points
--- @tfield number _default
--- @tfield Range _range
-
 local Oscillogram = middleclass("Oscillogram", Plot)
 
 ---
@@ -57,6 +50,13 @@ function Oscillogram.static.from_options(options)
 end
 
 ---
+-- @table instance
+-- @tfield "custom"|"linear"|"random" _kind
+-- @tfield {number,...} _points
+-- @tfield number _default
+-- @tfield Range _range
+
+---
 -- @function new
 -- @tparam "custom"|"linear"|"random" kind
 -- @tparam number length [0, ∞)
@@ -78,13 +78,13 @@ function Oscillogram:initialize(kind, length, default, range)
 end
 
 ---
--- It supports direct access to plot points and is used for iterating over them in Lua 5.3+.
+-- ⚠️. It supports direct access to plot points and is used for iterating over them in Lua 5.3+.
 -- @function __index
 -- @tparam number index [1, ∞)
 -- @treturn Vector2D|nil
 
 ---
--- It is used for iterating over plot points in Lua 5.2.
+-- ⚠️. It is used for iterating over plot points in Lua 5.2.
 -- @function __ipairs
 -- @treturn iterators.inext iterator function
 -- @treturn Oscillogram self

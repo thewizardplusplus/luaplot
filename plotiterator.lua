@@ -6,13 +6,13 @@ local assertions = require("luatypechecks.assertions")
 local Iterable = require("luaplot.iterable")
 local Plot = require("luaplot.plot")
 
+local PlotIterator = middleclass("PlotIterator")
+PlotIterator:include(Iterable)
+
 ---
 -- @table instance
 -- @tfield Plot _plot
 -- @tfield func _transformer func(point: Vector2D): any
-
-local PlotIterator = middleclass("PlotIterator")
-PlotIterator:include(Iterable)
 
 ---
 -- @function new
@@ -28,8 +28,8 @@ function PlotIterator:initialize(plot, transformer)
 end
 
 ---
--- It supports direct access to transformed plot points
---   and is used for iterating over them in Lua 5.3+.
+-- ⚠️. It supports direct access to transformed plot points
+-- and is used for iterating over them in Lua 5.3+.
 -- @tparam number index [1, ∞)
 -- @treturn any transformed point, or nil when the index is out of range
 function PlotIterator:__index(index)
@@ -44,7 +44,7 @@ function PlotIterator:__index(index)
 end
 
 ---
--- It is used for iterating over plot points in Lua 5.2.
+-- ⚠️. It is used for iterating over plot points in Lua 5.2.
 -- @function __ipairs
 -- @treturn iterators.inext iterator function
 -- @treturn PlotIterator self
