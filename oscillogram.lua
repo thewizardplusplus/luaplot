@@ -18,6 +18,45 @@ local Plot = require("luaplot.plot")
 local Oscillogram = middleclass("Oscillogram", Plot)
 
 ---
+-- @function schema
+-- @static
+-- @treturn tab JSON Schema for this class
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
+function Oscillogram.static.schema()
+  local schema = Plot.schema()
+  table.insert(schema.required, 1, "kind")
+  schema.properties.kind = {
+    type = "string",
+    enum = {"custom", "linear", "random"},
+  }
+
+  return schema
+end
+
+---
+-- @function from_options
+-- @static
+-- @tparam tab options constructor options conforming to the JSON Schema
+--   returned by @{Oscillogram.schema|Oscillogram.schema()}
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
+-- @treturn Oscillogram
+function Oscillogram.static.from_options(options)
+  assertions.is_table(options)
+
+  local plot = Oscillogram:new(
+    options.kind,
+    #options.points,
+    options.default,
+    options.range
+  )
+  for index, point in ipairs(options.points) do
+    plot._points[index] = point
+  end
+
+  return plot
+end
+
+---
 -- @function new
 -- @tparam "custom"|"linear"|"random" kind
 -- @tparam number length [0, ∞)
