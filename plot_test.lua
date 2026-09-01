@@ -61,6 +61,21 @@ function TestPlot.test_from_json_error()
   )
 end
 
+function TestPlot.test_from_options_copies_inputs()
+  local options = {
+    points = {0.1, 0.2, 0.3},
+    default = 0.5,
+    range = Range:new(0, 1),
+  }
+  local plot = Plot.from_options(options)
+
+  options.points[1] = 0.9
+  options.range.max = 2
+
+  luaunit.assert_equals(plot._points, {0.1, 0.2, 0.3})
+  luaunit.assert_equals(plot._range, Range:new(0, 1))
+end
+
 function TestPlot.test_new_full()
   local range = Range:new(23, 42)
   local plot = Plot:new(5, 32, range)
@@ -94,6 +109,15 @@ function TestPlot.test_new_partial()
   luaunit.assert_is_table(plot._range)
   luaunit.assert_true(checks.is_instance(plot._range, Range))
   luaunit.assert_equals(plot._range, Range:new(0, 1))
+end
+
+function TestPlot.test_new_copies_inputs()
+  local range = Range:new(23, 42)
+  local plot = Plot:new(5, 32, range)
+
+  range.max = 50
+
+  luaunit.assert_equals(plot._range, Range:new(23, 42))
 end
 
 function TestPlot.test_index_middle()

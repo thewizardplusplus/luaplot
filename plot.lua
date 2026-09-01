@@ -77,7 +77,7 @@ function Plot:initialize(length, default, range)
     table.insert(self._points, default)
   end
   self._default = default
-  self._range = range
+  self._range = Range:new(range.min, range.max)
 end
 
 ---
