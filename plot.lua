@@ -24,6 +24,41 @@ Plot:include(Nameable)
 Plot:include(Stringifiable)
 
 ---
+-- @function schema
+-- @static
+-- @treturn tab JSON Schema for this class
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
+function Plot.static.schema()
+  return {
+    type = "object",
+    required = {"points", "default", "range"},
+    properties = {
+      points = { type = "array", items = { type = "number" } },
+      default = { type = "number" },
+      range = Range.schema(),
+    },
+  }
+end
+
+---
+-- @function from_options
+-- @static
+-- @tparam tab options constructor options conforming to the JSON Schema
+--   returned by @{Plot.schema|Plot.schema()}
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
+-- @treturn Plot
+function Plot.static.from_options(options)
+  assertions.is_table(options)
+
+  local plot = Plot:new(#options.points, options.default, options.range)
+  for index, point in ipairs(options.points) do
+    plot._points[index] = point
+  end
+
+  return plot
+end
+
+---
 -- @function new
 -- @tparam number length [0, ∞)
 -- @tparam[opt=range.min] number default

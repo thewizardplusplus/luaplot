@@ -1,11 +1,65 @@
 local luaunit = require("luaunit")
 local checks = require("luatypechecks.checks")
+local json = require("luaserialization.json")
 local Vector2D = require("luamath.vector2d")
 local Range = require("luamath.models.range")
 local Plot = require("luaplot.plot")
 
 -- luacheck: globals TestPlot
 TestPlot = {}
+
+function TestPlot.test_from_json_success()
+  local plot, err = json.from_json(
+    [=[{
+      "__name": "Plot",
+      "points": [0.1, 0.2, 0.3],
+      "default": 0.5,
+      "range": {"__name": "Range", "min": 0, "max": 1}
+    }]=],
+    Plot.schema(),
+    { Range = Range.from_options, Plot = Plot.from_options }
+  )
+
+  luaunit.assert_is_table(plot)
+  luaunit.assert_true(checks.is_instance(plot, Plot))
+
+  luaunit.assert_is_table(plot._points)
+  luaunit.assert_equals(plot._points, {0.1, 0.2, 0.3})
+
+  luaunit.assert_is_number(plot._default)
+  luaunit.assert_equals(plot._default, 0.5)
+
+  luaunit.assert_is_table(plot._range)
+  luaunit.assert_true(checks.is_instance(plot._range, Range))
+  luaunit.assert_equals(plot._range, Range:new(0, 1))
+
+  luaunit.assert_nil(err)
+end
+
+function TestPlot.test_from_json_error()
+  local plot, err = json.from_json(
+    [=[{
+      "__name": "Plot",
+      "points": [0.1, "invalid", 0.3],
+      "default": 0.5,
+      "range": {"__name": "Range", "min": 0, "max": 1}
+    }]=],
+    Plot.schema(),
+    { Range = Range.from_options, Plot = Plot.from_options }
+  )
+
+  luaunit.assert_nil(plot)
+
+  luaunit.assert_is_string(err)
+  luaunit.assert_str_matches(
+    err,
+    "^invalid data: " ..
+      [[property "points" validation failed: ]] ..
+      "failed to validate item 2: " ..
+      "wrong type: " ..
+      "expected number, got string$"
+  )
+end
 
 function TestPlot.test_new_full()
   local range = Range:new(23, 42)
