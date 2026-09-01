@@ -15,6 +15,35 @@ DistanceLimit:include(Nameable)
 DistanceLimit:include(Stringifiable)
 
 ---
+-- @function schema
+-- @static
+-- @treturn tab JSON Schema for this class
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
+function DistanceLimit.static.schema()
+  return {
+    type = "object",
+    required = {"maximal_distance", "suitable_value"},
+    properties = {
+      maximal_distance = { type = "number" },
+      suitable_value = {},
+    },
+  }
+end
+
+---
+-- @function from_options
+-- @static
+-- @tparam tab options constructor options conforming to the JSON Schema
+--   returned by @{DistanceLimit.schema|DistanceLimit.schema()}
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
+-- @treturn DistanceLimit
+function DistanceLimit.static.from_options(options)
+  assertions.is_table(options)
+
+  return DistanceLimit:new(options.maximal_distance, options.suitable_value)
+end
+
+---
 -- @table instance
 -- @tfield number maximal_distance
 -- @tfield any suitable_value
