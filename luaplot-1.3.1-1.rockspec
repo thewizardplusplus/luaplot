@@ -1,6 +1,6 @@
 rockspec_format = "3.0"
 package = "luaplot"
-version = "1.3-1"
+version = "1.3.1-1"
 description = {
   summary = "The library that implements a model of a 2D plot with support for displaying functions of time (as in an oscilloscope).",
   license = "MIT",
@@ -9,7 +9,7 @@ description = {
 }
 source = {
   url = "git+https://github.com/thewizardplusplus/luaplot.git",
-  tag = "v1.3",
+  tag = "v1.3.1",
 }
 dependencies = {
   "lua >= 5.1",
