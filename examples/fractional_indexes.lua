@@ -12,10 +12,10 @@ for i = 1, 5 do
 end
 
 local item_one = plot_one[3.2]
-print(string.format("plot_one[3.2] = %g", item_one))
+print(string.format("plot_one[3.2] = %s", item_one))
 
 local item_two = plot_two[3.2]
-print(string.format("plot_two[3.2] = %g", item_two))
+print(string.format("plot_two[3.2] = %s", item_two))
 
 local difference = iterators.difference(plot_one, plot_two, 3.2)
 print(string.format("difference = %g", difference))

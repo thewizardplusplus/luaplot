@@ -92,7 +92,7 @@ local function print_plot(plot, vertical_step)
   local text = ""
   for height = 1, 0, -vertical_step do
     for _, point in ipairs(plot) do
-      local delta = math.abs(point - height)
+      local delta = math.abs(point.y - height)
       local symbol = delta < vertical_step / 2
         and colors("%{cyan}*%{reset}")
         or "."
@@ -147,7 +147,7 @@ local function print_plot(plot, vertical_step)
   local text = ""
   for height = 1, 0, -vertical_step do
     for _, point in ipairs(plot) do
-      local delta = math.abs(point - height)
+      local delta = math.abs(point.y - height)
       local symbol = delta < vertical_step / 2
         and colors("%{cyan}*%{reset}")
         or "."
@@ -192,6 +192,7 @@ end
 local inspect = require("inspect")
 local assertions = require("luatypechecks.assertions")
 local checks = require("luatypechecks.checks")
+local Vector2D = require("luamath.vector2d")
 local Plot = require("luaplot.plot")
 local PlotIterator = require("luaplot.plotiterator")
 
@@ -207,7 +208,7 @@ local function print_iterable(iterable)
 
   local points = {}
   for _, point in ipairs(iterable) do
-    table.insert(points, point)
+    table.insert(points, tostring(point))
   end
 
   print(inspect(points))
@@ -219,19 +220,17 @@ for i = 1, 5 do
 end
 print_iterable(plot)
 
-local iterator_one = PlotIterator:new(plot, function(index, point)
-  assertions.is_number(index)
-  assertions.is_number(point)
+local iterator_one = PlotIterator:new(plot, function(point)
+  assertions.is_instance(point, Vector2D)
 
-  return point * index
+  return point.x * point.y
 end)
 print_iterable(iterator_one)
 
-local iterator_two = PlotIterator:new(plot, function(index, point)
-  assertions.is_number(index)
-  assertions.is_number(point)
+local iterator_two = PlotIterator:new(plot, function(point)
+  assertions.is_instance(point, Vector2D)
 
-  return { x = index, y = point }
+  return point.x ^ point.y
 end)
 print_iterable(iterator_two)
 ```
@@ -243,6 +242,7 @@ print_iterable(iterator_two)
 local inspect = require("inspect")
 local assertions = require("luatypechecks.assertions")
 local checks = require("luatypechecks.checks")
+local Vector2D = require("luamath.vector2d")
 local Plot = require("luaplot.plot")
 local PlotIteratorFactory = require("luaplot.plotiteratorfactory")
 
@@ -258,17 +258,16 @@ local function print_iterable(iterable)
 
   local points = {}
   for _, point in ipairs(iterable) do
-    table.insert(points, point)
+    table.insert(points, tostring(point))
   end
 
   print(inspect(points))
 end
 
-local iterator = PlotIteratorFactory:new(function(index, point)
-  assertions.is_number(index)
-  assertions.is_number(point)
+local iterator = PlotIteratorFactory:new(function(point)
+  assertions.is_instance(point, Vector2D)
 
-  return { x = index, y = point }
+  return point.x * point.y
 end)
 
 local plot_one = Plot:new(0)
@@ -301,10 +300,10 @@ for i = 1, 5 do
 end
 
 local item_one = plot_one[3.2]
-print(string.format("plot_one[3.2] = %g", item_one))
+print(string.format("plot_one[3.2] = %s", item_one))
 
 local item_two = plot_two[3.2]
-print(string.format("plot_two[3.2] = %g", item_two))
+print(string.format("plot_two[3.2] = %s", item_two))
 
 local difference = iterators.difference(plot_one, plot_two, 3.2)
 print(string.format("difference = %g", difference))
@@ -328,7 +327,7 @@ local function print_plot(plot, vertical_step)
   local text = ""
   for height = 1, 0, -vertical_step do
     for _, point in ipairs(plot) do
-      local delta = math.abs(point - height)
+      local delta = math.abs(point.y - height)
       local symbol = delta < vertical_step / 2
         and colors("%{cyan}*%{reset}")
         or "."

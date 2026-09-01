@@ -2,6 +2,7 @@
 local inspect = require("inspect")
 local assertions = require("luatypechecks.assertions")
 local checks = require("luatypechecks.checks")
+local Vector2D = require("luamath.vector2d")
 local Plot = require("luaplot.plot")
 local PlotIterator = require("luaplot.plotiterator")
 
@@ -17,7 +18,7 @@ local function print_iterable(iterable)
 
   local points = {}
   for _, point in ipairs(iterable) do
-    table.insert(points, point)
+    table.insert(points, tostring(point))
   end
 
   print(inspect(points))
@@ -29,18 +30,16 @@ for i = 1, 5 do
 end
 print_iterable(plot)
 
-local iterator_one = PlotIterator:new(plot, function(index, point)
-  assertions.is_number(index)
-  assertions.is_number(point)
+local iterator_one = PlotIterator:new(plot, function(point)
+  assertions.is_instance(point, Vector2D)
 
-  return point * index
+  return point.x * point.y
 end)
 print_iterable(iterator_one)
 
-local iterator_two = PlotIterator:new(plot, function(index, point)
-  assertions.is_number(index)
-  assertions.is_number(point)
+local iterator_two = PlotIterator:new(plot, function(point)
+  assertions.is_instance(point, Vector2D)
 
-  return { x = index, y = point }
+  return point.x ^ point.y
 end)
 print_iterable(iterator_two)

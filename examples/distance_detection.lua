@@ -13,7 +13,7 @@ local function print_plot(plot, vertical_step)
   local text = ""
   for height = 1, 0, -vertical_step do
     for _, point in ipairs(plot) do
-      local delta = math.abs(point - height)
+      local delta = math.abs(point.y - height)
       local symbol = delta < vertical_step / 2
         and colors("%{cyan}*%{reset}")
         or "."
