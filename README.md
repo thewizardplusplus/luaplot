@@ -4,8 +4,11 @@
 [![doc:link](https://img.shields.io/badge/doc%3Alink-link-blue?logo=github)](https://thewizardplusplus.github.io/luaplot/)
 [![lint](https://github.com/thewizardplusplus/luaplot/actions/workflows/lint.yaml/badge.svg)](https://github.com/thewizardplusplus/luaplot/actions/workflows/lint.yaml)
 [![test](https://github.com/thewizardplusplus/luaplot/actions/workflows/test.yaml/badge.svg)](https://github.com/thewizardplusplus/luaplot/actions/workflows/test.yaml)
+[![luarocks](https://img.shields.io/badge/luarocks-link-blue?logo=lua)](https://luarocks.org/modules/thewizardplusplus/luaplot)
 
 The library that implements a model of a 2D plot with support for displaying functions of time (as in an oscilloscope).
+
+_**Disclaimer:** this library was written directly on an Android smartphone with the [QLua](https://play.google.com/store/apps/details?id=com.quseit.qlua5pro2) IDE._
 
 ## Features
 
@@ -13,12 +16,12 @@ The library that implements a model of a 2D plot with support for displaying fun
   - 2D plot:
     - storing:
       - values of a displayed function;
-      - limits for these values;
+      - a `Range` from the [luamath](https://github.com/thewizardplusplus/luamath) library with limits for these values;
       - default value;
     - operations:
       - initializing:
         - filling a specified count of values by a specified default value;
-      - iterating over values:
+      - iterating over points represented as `Vector2D(index, value)` from the [luamath](https://github.com/thewizardplusplus/luamath) library:
         - via the `__ipairs` metamethod (for Lua 5.2);
         - via the `__index` metamethod (for Lua 5.3+):
           - support of fractional indexes;
@@ -32,6 +35,10 @@ The library that implements a model of a 2D plot with support for displaying fun
       - removing the first value:
         - returning the removed value:
           - returning a specified default value if no values;
+      - serialization via the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library:
+        - exposing a class name and a stringified representation;
+        - generating a JSON Schema via the `schema()` static method;
+        - constructing an instance from serializable options via the `from_options()` static method;
   - 2D oscillogram:
     - extending the 2D plot model;
     - kinds:
@@ -42,37 +49,36 @@ The library that implements a model of a 2D plot with support for displaying fun
       - updating:
         - first step: adding a new value;
         - second step: removing the first value;
+      - serialization via the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library:
+        - exposing a class name and a stringified representation;
+        - generating a JSON Schema via the `schema()` static method;
+        - constructing an instance from serializable options via the `from_options()` static method;
   - 2D plot/oscillogram iterator:
     - storing:
       - 2D plot/oscillogram;
-      - transformer for iterated values;
-    - iterating over values of 2D plot/oscillogram:
+      - transformer for iterated points;
+    - iterating over transformed points of 2D plot/oscillogram:
       - via the `__ipairs` metamethod (for Lua 5.2);
       - via the `__index` metamethod (for Lua 5.3+);
-    - applying transformations to iterated values via a specified transformer;
+    - applying transformations to iterated points via a specified transformer;
   - factory of a 2D plot/oscillogram iterator:
     - storing:
-      - transformer for iterated values;
+      - transformer for iterated points;
     - generating a 2D plot/oscillogram iterator for a specific 2D plot/oscillogram;
 - global operations:
   - calculating a difference (a distance) between two 2D plots/oscillograms in the same index:
     - returning a difference (a distance) by modulo (optionally);
   - selecting a value by a distance between two 2D plots/oscillograms in the specific index:
-    - selecting by the specified sequential distance ranges.
+    - selecting by the specified sequential distance ranges;
+    - serialization of distance ranges via the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library:
+      - exposing a class name and a stringified representation;
+      - generating a JSON Schema via the `schema()` static method;
+      - constructing an instance from serializable options via the `from_options()` static method.
 
 ## Installation
 
-Clone this repository:
-
 ```
-$ git clone https://github.com/thewizardplusplus/luaplot.git
-$ cd luaplot
-```
-
-Install the library with the [LuaRocks](https://luarocks.org/) tool:
-
-```
-$ luarocks make
+$ luarocks install luaplot
 ```
 
 ## Examples
